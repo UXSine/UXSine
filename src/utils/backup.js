@@ -1,5 +1,7 @@
-export function exportData(challenge) {
-  const json = JSON.stringify(challenge, null, 2)
+import { normalizeImport } from '../data/model'
+
+export function exportData(state) {
+  const json = JSON.stringify(state, null, 2)
   const blob = new Blob([json], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const date = new Date().toISOString().split('T')[0]
@@ -19,10 +21,7 @@ export function readBackupFile(file) {
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result)
-        if (!data || typeof data.startDate !== 'string' || typeof data.days !== 'object') {
-          throw new Error('Invalid backup file')
-        }
-        resolve(data)
+        resolve(normalizeImport(data))
       } catch (err) {
         reject(err)
       }
