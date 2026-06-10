@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CaretRight, Barbell, ForkKnife, Image, BookOpen } from '@phosphor-icons/react'
 import { TASK_ICONS, Check } from '../data/icons'
 import {
   TASK_DEFS,
@@ -27,7 +28,14 @@ function formatDate(dateStr) {
 
 const ALL_TASKS = [...TASK_DEFS, JOURNAL_TASK_DEF]
 
-export default function ProgressScreen({ state, dayNum }) {
+const DETAIL_LINKS = [
+  { key: 'workoutHistory', label: 'Workout history', icon: Barbell },
+  { key: 'dietStreak', label: 'Diet streak', icon: ForkKnife },
+  { key: 'beforeAfter', label: 'Before & after', icon: Image },
+  { key: 'bookLibrary', label: 'Book library', icon: BookOpen },
+]
+
+export default function ProgressScreen({ state, dayNum, onOpenDetail }) {
   const [view, setView] = useState('day')
   const [selectedDay, setSelectedDay] = useState(dayNum)
 
@@ -166,6 +174,21 @@ export default function ProgressScreen({ state, dayNum }) {
               </div>
             </div>
           )}
+
+          <div>
+            <div className="section-header">Details</div>
+            <div className="task-list">
+              {DETAIL_LINKS.map(({ key, label, icon: Icon }) => (
+                <button className="task-row" key={key} onClick={() => onOpenDetail(key)}>
+                  <div className="task-row__icon"><Icon size={20} weight="regular" /></div>
+                  <div className="task-row__body">
+                    <div className="task-name">{label}</div>
+                  </div>
+                  <CaretRight size={16} weight="bold" color="var(--color-text-tertiary)" />
+                </button>
+              ))}
+            </div>
+          </div>
         </>
       )}
     </div>

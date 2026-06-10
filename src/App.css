@@ -1279,6 +1279,28 @@ button, input, textarea {
   object-fit: cover;
 }
 
+/* ─── DIET STREAK GRID ─── */
+
+.diet-grid {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 4px;
+}
+
+.diet-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: rgba(26, 26, 24, 0.08);
+}
+
+.diet-cell--done {
+  background: var(--color-teal-fill);
+}
+
+.diet-cell--today {
+  border: 1.5px solid var(--color-text-primary);
+}
+
 .toggle-switch-row {
   display: flex;
   background: var(--color-bg-elevated);

@@ -15,6 +15,10 @@ import ReadingTaskScreen from './screens/tasks/ReadingTaskScreen'
 import DietTaskScreen from './screens/tasks/DietTaskScreen'
 import PhotoTaskScreen from './screens/tasks/PhotoTaskScreen'
 import JournalTaskScreen from './screens/tasks/JournalTaskScreen'
+import WorkoutHistoryScreen from './screens/progress/WorkoutHistoryScreen'
+import DietStreakScreen from './screens/progress/DietStreakScreen'
+import BeforeAfterScreen from './screens/progress/BeforeAfterScreen'
+import BookLibraryScreen from './screens/progress/BookLibraryScreen'
 import {
   load,
   save,
@@ -162,6 +166,7 @@ export default function App() {
 
   const closeDetail = () => setDetail(null)
   const openTask = (key) => setDetail({ type: 'task', key })
+  const openProgressDetail = (key) => setDetail({ type: 'progress', key })
 
   if (detail?.type === 'missed') {
     return (
@@ -235,10 +240,31 @@ export default function App() {
     return <div className="app">{screen}</div>
   }
 
+  if (detail?.type === 'progress') {
+    let screen
+    switch (detail.key) {
+      case 'workoutHistory':
+        screen = <WorkoutHistoryScreen state={state} dayNum={dayNum} onBack={closeDetail} />
+        break
+      case 'dietStreak':
+        screen = <DietStreakScreen state={state} dayNum={dayNum} onBack={closeDetail} />
+        break
+      case 'beforeAfter':
+        screen = <BeforeAfterScreen state={state} dayNum={dayNum} onBack={closeDetail} />
+        break
+      case 'bookLibrary':
+        screen = <BookLibraryScreen state={state} onBack={closeDetail} />
+        break
+      default:
+        screen = null
+    }
+    return <div className="app">{screen}</div>
+  }
+
   let content
   switch (tab) {
     case 'progress':
-      content = <ProgressScreen state={state} dayNum={dayNum} />
+      content = <ProgressScreen state={state} dayNum={dayNum} onOpenDetail={openProgressDetail} />
       break
     case 'journal':
       content = (
