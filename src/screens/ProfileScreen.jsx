@@ -14,6 +14,11 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
+function formatShortDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00')
+  return d.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })
+}
+
 export default function ProfileScreen({ state, dayNum, onUpdateSettings, onRestart, onImport }) {
   const fileInputRef = useRef(null)
   const [error, setError] = useState('')
@@ -64,7 +69,7 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onResta
           <span className="stat-tile__label">attempt</span>
         </div>
         <div className="stat-tile">
-          <span className="stat-tile__value serif">{formatDate(state.challenge.startDate)}</span>
+          <span className="stat-tile__value serif">{formatShortDate(state.challenge.startDate)}</span>
           <span className="stat-tile__label">started</span>
         </div>
       </div>
