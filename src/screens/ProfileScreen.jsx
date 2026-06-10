@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { ArrowCounterClockwise, Trophy } from '@phosphor-icons/react'
 import { exportData, readBackupFile } from '../utils/backup'
+import { computeStreak, isComplete } from '../data/model'
 
 const NOTIFICATIONS = [
   { key: 'morning', label: 'Morning kickoff', sub: '7:00 AM — Day starts now' },
@@ -24,6 +25,8 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onResta
   const [error, setError] = useState('')
 
   const notifications = state.settings?.notifications || {}
+  const streak = computeStreak(state)
+  const completedDays = Object.values(state.days).filter(isComplete).length
 
   const handleExport = () => exportData(state)
 
@@ -71,6 +74,17 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onResta
         <div className="stat-tile">
           <span className="stat-tile__value serif">{formatShortDate(state.challenge.startDate)}</span>
           <span className="stat-tile__label">started</span>
+        </div>
+      </div>
+
+      <div className="card stat-row">
+        <div className="stat-tile">
+          <span className="stat-tile__value serif">{streak}</span>
+          <span className="stat-tile__label">day streak</span>
+        </div>
+        <div className="stat-tile">
+          <span className="stat-tile__value serif">{completedDays}</span>
+          <span className="stat-tile__label">days complete</span>
         </div>
       </div>
 
