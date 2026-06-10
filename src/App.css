@@ -158,6 +158,33 @@ button, input, textarea {
   min-height: 100dvh;
 }
 
+.screen--splash {
+  background: var(--color-milestone-bg);
+  color: var(--color-milestone-text);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-2xl);
+  padding: var(--space-2xl) var(--screen-padding);
+  animation: fade-up var(--duration-normal) var(--ease-out);
+}
+
+.splash-mark {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.4em;
+  padding-left: 0.4em;
+  color: var(--color-milestone-text);
+}
+
+.splash-quote {
+  max-width: 320px;
+}
+
 .screen--full {
   padding-bottom: var(--space-2xl);
   min-height: 100dvh;
@@ -467,7 +494,9 @@ button, input, textarea {
 }
 
 .screen--milestone .quote-block__text,
-.screen--milestone .quote-block__attribution {
+.screen--milestone .quote-block__attribution,
+.screen--splash .quote-block__text,
+.screen--splash .quote-block__attribution {
   color: var(--color-milestone-text);
 }
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import SplashScreen from './screens/SplashScreen'
 import SetupScreen from './components/SetupScreen'
 import BottomNav from './components/BottomNav'
 import TodayScreen from './screens/TodayScreen'
@@ -34,6 +35,7 @@ export default function App() {
   const [state, setState] = useState(load)
   const [tab, setTab] = useState('today')
   const [detail, setDetail] = useState(null)
+  const [showSplash, setShowSplash] = useState(true)
   const checkedMissed = useRef(false)
 
   useEffect(() => {
@@ -65,6 +67,14 @@ export default function App() {
     setState(data)
     setTab('today')
     setDetail(null)
+  }
+
+  if (showSplash) {
+    return (
+      <div className="app">
+        <SplashScreen onDone={() => setShowSplash(false)} />
+      </div>
+    )
   }
 
   if (!state) {
