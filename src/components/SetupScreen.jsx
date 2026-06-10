@@ -1,4 +1,29 @@
-export default function SetupScreen({ onStart }) {
+import { useRef, useState } from 'react'
+import { readBackupFile } from '../utils/backup'
+
+export default function SetupScreen({ onStart, onImport }) {
+  const fileInputRef = useRef(null)
+  const [error, setError] = useState('')
+
+  const handleRestoreClick = () => {
+    setError('')
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      const data = await readBackupFile(file)
+      onImport(data)
+    } catch {
+      setError("That file doesn't look like a valid 75 Hard backup.")
+    } finally {
+      e.target.value = ''
+    }
+  }
+
   const rules = [
     { icon: '🥗', name: 'Stick to your diet', detail: 'No cheat meals, no alcohol' },
     { icon: '🏋️', name: 'Indoor workout — 45 min', detail: 'Any exercise counts' },
@@ -33,6 +58,18 @@ export default function SetupScreen({ onStart }) {
       <button className="btn-pill-dark btn-start" onClick={onStart}>
         Start the Challenge
       </button>
+
+      <button className="btn-link" onClick={handleRestoreClick}>
+        Restore from backup
+      </button>
+      {error && <p className="backup-error">{error}</p>}
+      <input
+        type="file"
+        accept="application/json"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
     </div>
   )
 }

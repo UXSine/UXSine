@@ -5,6 +5,7 @@ import TodayCard from './components/TodayCard'
 import WaterTracker from './components/WaterTracker'
 import StepsTracker from './components/StepsTracker'
 import CalendarGrid from './components/CalendarGrid'
+import BackupCard from './components/BackupCard'
 
 const STORAGE_KEY = '75hard_v2'
 
@@ -111,8 +112,18 @@ export default function App() {
     setChallenge(null)
   }
 
+  const handleImport = (data) => {
+    const days = {}
+    for (const [date, day] of Object.entries(data.days || {})) {
+      days[date] = { ...emptyDay(), ...day }
+    }
+    const normalized = { startDate: data.startDate, days }
+    save(normalized)
+    setChallenge(normalized)
+  }
+
   if (!challenge) {
-    return <SetupScreen onStart={handleStart} />
+    return <SetupScreen onStart={handleStart} onImport={handleImport} />
   }
 
   const today = todayStr()
@@ -145,6 +156,7 @@ export default function App() {
           today={today}
           currentDay={dayNum}
         />
+        <BackupCard challenge={challenge} onImport={handleImport} />
         <button className="btn-reset" onClick={handleReset}>
           Restart Challenge
         </button>
