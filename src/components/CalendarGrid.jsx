@@ -20,9 +20,9 @@ export default function CalendarGrid({ startDate, days, today, currentDay }) {
   const completedCount = Object.values(days).filter(isComplete).length
 
   return (
-    <div className="calendar-card">
+    <section className="calendar-card">
       <div className="card-header">
-        <div className="card-title">75-Day Progress</div>
+        <h2 className="card-title serif">Your progress</h2>
         <div className="card-stat">
           <strong>{completedCount}</strong> / 75 days
         </div>
@@ -41,26 +41,26 @@ export default function CalendarGrid({ startDate, days, today, currentDay }) {
 
       <div className="legend">
         <div className="legend-item">
-          <div className="legend-dot" style={{ background: 'var(--success)' }} />
+          <div className="legend-dot" data-state="complete" />
           Complete
         </div>
         <div className="legend-item">
-          <div className="legend-dot" style={{ background: 'var(--amber)' }} />
+          <div className="legend-dot" data-state="partial" />
           Partial
         </div>
         <div className="legend-item">
-          <div className="legend-dot" style={{ background: 'var(--danger)', opacity: 0.55 }} />
+          <div className="legend-dot" data-state="missed" />
           Missed
         </div>
         <div className="legend-item">
-          <div className="legend-dot" style={{ background: 'var(--primary)', border: '1.5px solid var(--primary)' }} />
+          <div className="legend-dot" data-state="today" />
           Today
         </div>
         <div className="legend-item">
-          <div className="legend-dot" style={{ background: 'var(--surface-2)', opacity: 0.3 }} />
+          <div className="legend-dot" data-state="future" />
           Upcoming
         </div>
       </div>
-    </div>
+    </section>
   )
 }

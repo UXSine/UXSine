@@ -2,9 +2,17 @@ import { useState, useEffect } from 'react'
 import SetupScreen from './components/SetupScreen'
 import Header from './components/Header'
 import TodayCard from './components/TodayCard'
+import WaterTracker from './components/WaterTracker'
+import StepsTracker from './components/StepsTracker'
 import CalendarGrid from './components/CalendarGrid'
 
-const STORAGE_KEY = '75hard_v1'
+const STORAGE_KEY = '75hard_v2'
+
+export const WATER_GOAL_OZ = 128
+export const WATER_STEP_OZ = 8
+export const STEPS_GOAL = 10000
+export const STEPS_STEP = 500
+export const TOTAL_TASKS = 9
 
 export function todayStr() {
   return new Date().toISOString().split('T')[0]
@@ -19,36 +27,46 @@ export function getDayNumber(startDate) {
 export function emptyDay() {
   return {
     diet: false,
+    noAlcohol: false,
     workoutIndoor: false,
     workoutOutdoor: false,
-    water: false,
+    steps: 0,
+    waterOz: 0,
     reading: false,
+    calories: false,
     photo: false,
   }
 }
 
-export function isComplete(dayData) {
-  if (!dayData) return false
+export function isComplete(d) {
+  if (!d) return false
   return !!(
-    dayData.diet &&
-    dayData.workoutIndoor &&
-    dayData.workoutOutdoor &&
-    dayData.water &&
-    dayData.reading &&
-    dayData.photo
+    d.diet &&
+    d.noAlcohol &&
+    d.workoutIndoor &&
+    d.workoutOutdoor &&
+    d.reading &&
+    d.calories &&
+    d.photo &&
+    (d.steps || 0) >= STEPS_GOAL &&
+    (d.waterOz || 0) >= WATER_GOAL_OZ
   )
 }
 
-export function countDone(dayData) {
-  if (!dayData) return 0
-  return [
-    dayData.diet,
-    dayData.workoutIndoor,
-    dayData.workoutOutdoor,
-    dayData.water,
-    dayData.reading,
-    dayData.photo,
-  ].filter(Boolean).length
+export function countDone(d) {
+  if (!d) return 0
+  const checks = [
+    d.diet,
+    d.noAlcohol,
+    d.workoutIndoor,
+    d.workoutOutdoor,
+    d.reading,
+    d.calories,
+    d.photo,
+    (d.steps || 0) >= STEPS_GOAL,
+    (d.waterOz || 0) >= WATER_GOAL_OZ,
+  ]
+  return checks.filter(Boolean).length
 }
 
 function load() {
@@ -106,15 +124,20 @@ export default function App() {
   return (
     <div className="app">
       <Header day={dayNum} progress={progress} completedDays={completedDays} />
-      <div className="progress-wrap">
-        <div className="progress-fill" style={{ width: `${progress}%` }} />
-      </div>
       <main className="main">
         <TodayCard
           day={dayNum}
           data={todayData}
           onChange={handleUpdate}
           today={today}
+        />
+        <StepsTracker
+          value={todayData.steps || 0}
+          onChange={(steps) => handleUpdate({ steps })}
+        />
+        <WaterTracker
+          value={todayData.waterOz || 0}
+          onChange={(waterOz) => handleUpdate({ waterOz })}
         />
         <CalendarGrid
           startDate={challenge.startDate}
