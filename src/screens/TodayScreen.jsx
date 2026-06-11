@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flame, DownloadSimple, User } from '@phosphor-icons/react'
+import { Flame, DownloadSimple, User, ArrowsClockwise } from '@phosphor-icons/react'
 import TaskRow from '../components/TaskRow'
 import {
   TASK_DEFS,
@@ -10,7 +10,7 @@ import {
   taskMeta,
   computeStreak,
 } from '../data/model'
-import { getQuoteForDay } from '../data/quotes'
+import { quotes, getQuoteForDay } from '../data/quotes'
 import { generateQuoteWallpaper, downloadBlob } from '../utils/wallpaper'
 
 function formatDate(dateStr) {
@@ -23,12 +23,20 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
   const total = TASK_DEFS.length
   const allDone = isComplete(dayLog)
   const streak = computeStreak(state)
-  const quote = getQuoteForDay(dayNum)
   const overallProgress = Math.round((dayNum / 75) * 100)
 
   const name = state.profile?.name
   const avatarUri = state.profile?.avatarUri
   const [savingWallpaper, setSavingWallpaper] = useState(false)
+  const [quoteIndex, setQuoteIndex] = useState(() => {
+    const dayQuote = getQuoteForDay(dayNum)
+    return quotes.indexOf(dayQuote)
+  })
+  const quote = quotes[quoteIndex]
+
+  const handleCycleQuote = () => {
+    setQuoteIndex((i) => (i + 1) % quotes.length)
+  }
 
   const handleSaveWallpaper = async () => {
     setSavingWallpaper(true)
@@ -80,10 +88,16 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
         <div className="quote-block">
           <p className="quote-block__text">{quote.text}</p>
           <p className="quote-block__attribution">{quote.author}</p>
-          <button className="quote-block__wallpaper" onClick={handleSaveWallpaper} disabled={savingWallpaper}>
-            <DownloadSimple size={15} weight="bold" />
-            {savingWallpaper ? 'Preparing…' : 'Save as wallpaper'}
-          </button>
+          <div className="quote-block__actions">
+            <button className="quote-block__action quote-block__action--ghost" onClick={handleCycleQuote} aria-label="Show another quote">
+              <ArrowsClockwise size={15} weight="bold" />
+              Cycle quote
+            </button>
+            <button className="quote-block__action" onClick={handleSaveWallpaper} disabled={savingWallpaper}>
+              <DownloadSimple size={15} weight="bold" />
+              {savingWallpaper ? 'Preparing…' : 'Save as wallpaper'}
+            </button>
+          </div>
         </div>
       )}
 

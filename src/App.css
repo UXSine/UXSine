@@ -593,11 +593,16 @@ button, input, textarea {
   content: '— ';
 }
 
-.quote-block__wallpaper {
+.quote-block__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.quote-block__action {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  margin-top: var(--space-md);
   height: 36px;
   padding: 0 14px;
   border-radius: var(--radius-btn);
@@ -611,11 +616,17 @@ button, input, textarea {
   transition: opacity var(--duration-fast) ease, transform var(--duration-fast) ease;
 }
 
-.quote-block__wallpaper:active {
+.quote-block__action--ghost {
+  background: transparent;
+  border-color: var(--color-divider);
+  color: var(--color-text-secondary);
+}
+
+.quote-block__action:active {
   transform: scale(0.98);
 }
 
-.quote-block__wallpaper:disabled {
+.quote-block__action:disabled {
   opacity: 0.6;
   cursor: default;
 }
