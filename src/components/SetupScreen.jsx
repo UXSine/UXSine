@@ -1,13 +1,39 @@
-export default function SetupScreen({ onStart }) {
+import { useRef, useState } from 'react'
+import { Barbell, Sun, Drop, Brain, BookOpen, ForkKnife, Camera, NotePencil } from '@phosphor-icons/react'
+import { readBackupFile } from '../utils/backup'
+
+export default function SetupScreen({ onStart, onImport }) {
+  const fileInputRef = useRef(null)
+  const [error, setError] = useState('')
+
+  const handleRestoreClick = () => {
+    setError('')
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      const data = await readBackupFile(file)
+      onImport(data)
+    } catch {
+      setError("That file doesn't look like a valid 75 Hard backup.")
+    } finally {
+      e.target.value = ''
+    }
+  }
+
   const rules = [
-    { icon: '🥗', name: 'Stick to your diet', detail: 'No cheat meals, no alcohol' },
-    { icon: '🏋️', name: 'Indoor workout — 45 min', detail: 'Any exercise counts' },
-    { icon: '🌤️', name: 'Outdoor workout — 45 min', detail: 'Must be outside, rain or shine' },
-    { icon: '👟', name: '10,000 steps a day', detail: 'Track your daily movement' },
-    { icon: '💧', name: 'Drink 1 gallon of water', detail: '128 oz / ~3.8 litres' },
-    { icon: '📖', name: 'Read 10 pages', detail: 'Non-fiction or self-improvement' },
-    { icon: '🍎', name: 'Track your calories', detail: 'Log everything you eat' },
-    { icon: '📸', name: 'Take a progress photo', detail: 'Every single day' },
+    { Icon: Barbell, name: 'Workout 1 — 45 min', detail: 'Any activity, indoor or out' },
+    { Icon: Sun, name: 'Workout 2 — 45 min', detail: 'Must be outside, rain or shine' },
+    { Icon: Drop, name: 'Drink a gallon of water', detail: '128 oz / ~3.8 litres' },
+    { Icon: Brain, name: 'Meditate 15 minutes', detail: 'Quiet the noise, daily' },
+    { Icon: BookOpen, name: 'Read 10 pages', detail: 'Non-fiction or self-improvement' },
+    { Icon: ForkKnife, name: 'Follow your diet', detail: 'No cheat meals, no alcohol' },
+    { Icon: Camera, name: 'Take a progress photo', detail: 'Every single day' },
+    { Icon: NotePencil, name: 'Journal', detail: "Reflect on today, gratitude" },
   ]
 
   return (
@@ -16,23 +42,37 @@ export default function SetupScreen({ onStart }) {
       <h1 className="setup-title serif">
         Start your<br />challenge
       </h1>
-      <p className="setup-tagline">75 days. 9 daily habits. Zero excuses.</p>
+      <p className="setup-tagline">75 days. Daily habits. Zero excuses.</p>
 
       <div className="setup-rules">
-        {rules.map((r, i) => (
+        {rules.map(({ Icon, name, detail }, i) => (
           <div className="setup-rule" key={i}>
-            <div className="rule-icon">{r.icon}</div>
+            <div className="rule-icon">
+              <Icon size={18} weight="regular" />
+            </div>
             <div className="rule-info">
-              <strong>{r.name}</strong>
-              <span>{r.detail}</span>
+              <strong>{name}</strong>
+              <span>{detail}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <button className="btn-pill-dark btn-start" onClick={onStart}>
+      <button className="btn-primary btn-cta btn-start" onClick={onStart}>
         Start the Challenge
       </button>
+
+      <button className="btn-link" onClick={handleRestoreClick}>
+        Restore from backup
+      </button>
+      {error && <p className="backup-error">{error}</p>}
+      <input
+        type="file"
+        accept="application/json"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
     </div>
   )
 }
