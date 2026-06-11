@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import SplashScreen from './screens/SplashScreen'
 import SetupScreen from './components/SetupScreen'
+import ProfileSetupScreen from './components/ProfileSetupScreen'
 import BottomNav from './components/BottomNav'
 import TodayScreen from './screens/TodayScreen'
 import ProgressScreen from './screens/ProgressScreen'
@@ -40,6 +41,7 @@ export default function App() {
   const [tab, setTab] = useState('today')
   const [detail, setDetail] = useState(null)
   const [showSplash, setShowSplash] = useState(true)
+  const [profileName, setProfileName] = useState(null)
   const checkedMissed = useRef(false)
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function App() {
   }, [state])
 
   const handleStart = () => {
-    setState(emptyState(todayStr()))
+    setState(emptyState(todayStr(), { name: profileName || '' }))
   }
 
   const handleImport = (data) => {
@@ -82,6 +84,9 @@ export default function App() {
   }
 
   if (!state) {
+    if (profileName === null) {
+      return <ProfileSetupScreen onContinue={setProfileName} />
+    }
     return <SetupScreen onStart={handleStart} onImport={handleImport} />
   }
 
@@ -115,6 +120,10 @@ export default function App() {
 
   const updateSettings = (patch) => {
     setState((prev) => ({ ...prev, settings: { ...prev.settings, ...patch } }))
+  }
+
+  const updateProfile = (patch) => {
+    setState((prev) => ({ ...prev, profile: { ...prev.profile, ...patch } }))
   }
 
   const updateWeeklyReflection = (weekNumber, reflection) => {
@@ -284,6 +293,7 @@ export default function App() {
           state={state}
           dayNum={dayNum}
           onUpdateSettings={updateSettings}
+          onUpdateProfile={updateProfile}
           onRestart={handleRestart}
           onImport={handleImport}
         />

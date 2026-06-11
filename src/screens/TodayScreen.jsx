@@ -24,10 +24,13 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
   const quote = getQuoteForDay(dayNum)
   const overallProgress = Math.round((dayNum / 75) * 100)
 
+  const name = state.profile?.name
+
   return (
     <div className="screen">
       <div className="home-header">
         <div>
+          {name && <p className="text-caption" style={{ marginBottom: 'var(--space-xs)' }}>Hi, {name}</p>}
           <div className="home-eyebrow">Day {dayNum} of 75</div>
           <div className="home-day-number">{dayNum}</div>
           <div className="home-date">{formatDate(today)}</div>

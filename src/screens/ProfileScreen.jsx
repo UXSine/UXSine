@@ -20,13 +20,19 @@ function formatShortDate(dateStr) {
   return d.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })
 }
 
-export default function ProfileScreen({ state, dayNum, onUpdateSettings, onRestart, onImport }) {
+export default function ProfileScreen({ state, dayNum, onUpdateSettings, onUpdateProfile, onRestart, onImport }) {
   const fileInputRef = useRef(null)
   const [error, setError] = useState('')
+  const [name, setName] = useState(state.profile?.name || '')
 
   const notifications = state.settings?.notifications || {}
   const streak = computeStreak(state)
   const completedDays = Object.values(state.days).filter(isComplete).length
+
+  const handleNameBlur = () => {
+    const trimmed = name.trim()
+    if (trimmed !== (state.profile?.name || '')) onUpdateProfile({ name: trimmed })
+  }
 
   const handleExport = () => exportData(state)
 
@@ -60,6 +66,21 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onResta
     <div className="screen">
       <div className="screen-header">
         <h1 className="screen-header__title">Profile</h1>
+      </div>
+
+      <div>
+        <div className="section-header">Your name</div>
+        <div className="card">
+          <input
+            className="text-input"
+            type="text"
+            placeholder="Add your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onBlur={handleNameBlur}
+            maxLength={40}
+          />
+        </div>
       </div>
 
       <div className="card stat-row">

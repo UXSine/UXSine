@@ -145,10 +145,11 @@ function emptyChallenge(startDate, attemptNumber = 1) {
   }
 }
 
-export function emptyState(startDate) {
+export function emptyState(startDate, profile = {}) {
   return {
     version: 3,
     challenge: emptyChallenge(startDate),
+    profile: { name: '', ...profile },
     days: {},
     books: [],
     history: [],
