@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flame, DownloadSimple } from '@phosphor-icons/react'
+import { Flame, DownloadSimple, User } from '@phosphor-icons/react'
 import TaskRow from '../components/TaskRow'
 import {
   TASK_DEFS,
@@ -27,6 +27,7 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
   const overallProgress = Math.round((dayNum / 75) * 100)
 
   const name = state.profile?.name
+  const avatarUri = state.profile?.avatarUri
   const [savingWallpaper, setSavingWallpaper] = useState(false)
 
   const handleSaveWallpaper = async () => {
@@ -43,7 +44,14 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
     <div className="screen">
       <div className="home-header">
         <div>
-          {name && <p className="text-caption" style={{ marginBottom: 'var(--space-xs)' }}>Hi, {name}</p>}
+          {name && (
+            <div className="home-greeting">
+              <span className="home-greeting__avatar">
+                {avatarUri ? <img src={avatarUri} alt="" /> : <User size={13} weight="bold" />}
+              </span>
+              <p className="text-caption">Hi, {name}</p>
+            </div>
+          )}
           <div className="home-eyebrow">Day {dayNum} of 75</div>
           <div className="home-day-number">{dayNum}</div>
           <div className="home-date">{formatDate(today)}</div>
