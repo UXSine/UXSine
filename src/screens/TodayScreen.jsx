@@ -1,4 +1,5 @@
-import { Flame } from '@phosphor-icons/react'
+import { useState } from 'react'
+import { Flame, DownloadSimple } from '@phosphor-icons/react'
 import TaskRow from '../components/TaskRow'
 import {
   TASK_DEFS,
@@ -10,6 +11,7 @@ import {
   computeStreak,
 } from '../data/model'
 import { getQuoteForDay } from '../data/quotes'
+import { generateQuoteWallpaper, downloadBlob } from '../utils/wallpaper'
 
 function formatDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00')
@@ -25,6 +27,17 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
   const overallProgress = Math.round((dayNum / 75) * 100)
 
   const name = state.profile?.name
+  const [savingWallpaper, setSavingWallpaper] = useState(false)
+
+  const handleSaveWallpaper = async () => {
+    setSavingWallpaper(true)
+    try {
+      const blob = await generateQuoteWallpaper(quote, dayNum)
+      downloadBlob(blob, `75hard-day-${dayNum}-wallpaper.png`)
+    } finally {
+      setSavingWallpaper(false)
+    }
+  }
 
   return (
     <div className="screen">
@@ -59,6 +72,10 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
         <div className="quote-block">
           <p className="quote-block__text">{quote.text}</p>
           <p className="quote-block__attribution">{quote.author}</p>
+          <button className="quote-block__wallpaper" onClick={handleSaveWallpaper} disabled={savingWallpaper}>
+            <DownloadSimple size={15} weight="bold" />
+            {savingWallpaper ? 'Preparing…' : 'Save as wallpaper'}
+          </button>
         </div>
       )}
 
