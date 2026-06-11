@@ -23,8 +23,15 @@ export const JOURNAL_TASK_DEF = {
   key: 'journal', label: 'Journal', meta: 'Prompt + gratitude', icon: 'NotePencil',
 }
 
+function formatLocalDate(d) {
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 export function todayStr() {
-  return new Date().toISOString().split('T')[0]
+  return formatLocalDate(new Date())
 }
 
 export function getDayNumber(startDate, ref = todayStr()) {
@@ -36,7 +43,7 @@ export function getDayNumber(startDate, ref = todayStr()) {
 export function dateForDay(startDate, day) {
   const d = new Date(startDate + 'T00:00:00')
   d.setDate(d.getDate() + (day - 1))
-  return d.toISOString().split('T')[0]
+  return formatLocalDate(d)
 }
 
 export function emptyDayLog(date) {
