@@ -253,5 +253,9 @@ export function load() {
 }
 
 export function save(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch {
+    // storage full or unavailable — keep the app running on in-memory state
+  }
 }

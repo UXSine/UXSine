@@ -1,15 +1,7 @@
 import { useRef } from 'react'
 import { Camera } from '@phosphor-icons/react'
 import DetailHeader from '../../components/DetailHeader'
-
-function readAsDataURL(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = reject
-    reader.readAsDataURL(file)
-  })
-}
+import { readImageAsDataURL } from '../../utils/image'
 
 export default function PhotoTaskScreen({ dayLog, onUpdate, onBack }) {
   const photo = dayLog.tasks.photo || { taken: false, frontUri: null, sideUri: null, notes: '' }
@@ -20,7 +12,7 @@ export default function PhotoTaskScreen({ dayLog, onUpdate, onBack }) {
 
   const handleFile = async (slot, file) => {
     if (!file) return
-    const uri = await readAsDataURL(file)
+    const uri = await readImageAsDataURL(file)
     update({ [slot]: uri, taken: true })
   }
 

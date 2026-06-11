@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
-import { ArrowCounterClockwise, Trophy } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, Trophy, Camera, User } from '@phosphor-icons/react'
 import { exportData, readBackupFile } from '../utils/backup'
+import { readImageAsDataURL } from '../utils/image'
 import { computeStreak, isComplete } from '../data/model'
 
 const NOTIFICATIONS = [
@@ -15,23 +16,31 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-function formatShortDate(dateStr) {
-  const d = new Date(dateStr + 'T00:00:00')
-  return d.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' })
-}
-
 export default function ProfileScreen({ state, dayNum, onUpdateSettings, onUpdateProfile, onRestart, onImport }) {
   const fileInputRef = useRef(null)
+  const avatarInputRef = useRef(null)
   const [error, setError] = useState('')
   const [name, setName] = useState(state.profile?.name || '')
 
   const notifications = state.settings?.notifications || {}
+  const avatarUri = state.profile?.avatarUri
   const streak = computeStreak(state)
   const completedDays = Object.values(state.days).filter(isComplete).length
 
   const handleNameBlur = () => {
     const trimmed = name.trim()
     if (trimmed !== (state.profile?.name || '')) onUpdateProfile({ name: trimmed })
+  }
+
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    try {
+      const uri = await readImageAsDataURL(file, 320)
+      onUpdateProfile({ avatarUri: uri })
+    } finally {
+      e.target.value = ''
+    }
   }
 
   const handleExport = () => exportData(state)
@@ -68,44 +77,52 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onUpdat
         <h1 className="screen-header__title">Profile</h1>
       </div>
 
+      <div className="profile-header">
+        <button className="avatar" onClick={() => avatarInputRef.current?.click()} aria-label="Change profile photo">
+          {avatarUri ? <img src={avatarUri} alt="Profile" /> : <User size={34} weight="light" />}
+          <span className="avatar__badge"><Camera size={13} weight="bold" /></span>
+        </button>
+        <input
+          className="profile-name-input"
+          type="text"
+          placeholder="Add your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          onBlur={handleNameBlur}
+          maxLength={40}
+        />
+        <input
+          type="file"
+          accept="image/*"
+          ref={avatarInputRef}
+          onChange={handleAvatarChange}
+          style={{ display: 'none' }}
+        />
+      </div>
+
       <div>
-        <div className="section-header">Your name</div>
+        <div className="section-header">Challenge</div>
         <div className="card">
-          <input
-            className="text-input"
-            type="text"
-            placeholder="Add your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onBlur={handleNameBlur}
-            maxLength={40}
-          />
-        </div>
-      </div>
-
-      <div className="card stat-row">
-        <div className="stat-tile">
-          <span className="stat-tile__value serif">{dayNum}</span>
-          <span className="stat-tile__label">current day</span>
-        </div>
-        <div className="stat-tile">
-          <span className="stat-tile__value serif">{state.challenge.attemptNumber}</span>
-          <span className="stat-tile__label">attempt</span>
-        </div>
-        <div className="stat-tile">
-          <span className="stat-tile__value serif">{formatShortDate(state.challenge.startDate)}</span>
-          <span className="stat-tile__label">started</span>
-        </div>
-      </div>
-
-      <div className="card stat-row">
-        <div className="stat-tile">
-          <span className="stat-tile__value serif">{streak}</span>
-          <span className="stat-tile__label">day streak</span>
-        </div>
-        <div className="stat-tile">
-          <span className="stat-tile__value serif">{completedDays}</span>
-          <span className="stat-tile__label">days complete</span>
+          <div className="list-row">
+            <span className="list-row__label">Current day</span>
+            <span className="list-row__value">Day {dayNum} of 75</span>
+          </div>
+          <div className="list-row">
+            <span className="list-row__label">Day streak</span>
+            <span className="list-row__value">{streak} {streak === 1 ? 'day' : 'days'}</span>
+          </div>
+          <div className="list-row">
+            <span className="list-row__label">Days complete</span>
+            <span className="list-row__value">{completedDays}</span>
+          </div>
+          <div className="list-row">
+            <span className="list-row__label">Attempt</span>
+            <span className="list-row__value">{state.challenge.attemptNumber}</span>
+          </div>
+          <div className="list-row">
+            <span className="list-row__label">Started</span>
+            <span className="list-row__value">{formatDate(state.challenge.startDate)}</span>
+          </div>
         </div>
       </div>
 
