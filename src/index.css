@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-bark font-body;
+    font-size: 14px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card border border-border rounded-card shadow-card;
+  }
+
+  .btn-primary {
+    @apply bg-canyon text-white font-display font-bold uppercase text-xs tracking-widest rounded-md px-4 py-2.5 transition-colors hover:bg-crimson;
+  }
+
+  .label-caption {
+    @apply text-[11px] font-body text-muted uppercase tracking-widest;
+  }
+}
