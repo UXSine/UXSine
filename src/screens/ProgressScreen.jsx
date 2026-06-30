@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CaretRight, Barbell, ForkKnife, Image, BookOpen } from '@phosphor-icons/react'
 import { TASK_ICONS, Check } from '../data/icons'
 import {
@@ -8,6 +8,7 @@ import {
   isComplete,
   countDone,
   dateForDay,
+  emptyDayLog,
   computeStreak,
 } from '../data/model'
 
@@ -35,9 +36,16 @@ const DETAIL_LINKS = [
   { key: 'bookLibrary', label: 'Book library', icon: BookOpen },
 ]
 
-export default function ProgressScreen({ state, dayNum, onOpenDetail }) {
+export default function ProgressScreen({ state, dayNum, focusDay, onOpenDetail, onEditPastTask, onClearFocusDay }) {
   const [view, setView] = useState('day')
-  const [selectedDay, setSelectedDay] = useState(dayNum)
+  const [selectedDay, setSelectedDay] = useState(focusDay ?? dayNum)
+
+  useEffect(() => {
+    if (focusDay != null) {
+      setSelectedDay(focusDay)
+      onClearFocusDay?.()
+    }
+  }, [focusDay])
 
   const selectedDate = dateForDay(state.challenge.startDate, selectedDay)
   const selectedLog = state.days[selectedDate]
@@ -108,7 +116,32 @@ export default function ProgressScreen({ state, dayNum, onOpenDetail }) {
             <h2 className="text-title">{formatDate(selectedDate)}</h2>
           </div>
 
-          {selectedLog ? (
+          {selectedDay < dayNum ? (
+            <div className="task-list">
+              {ALL_TASKS.map((def) => {
+                const Icon = TASK_ICONS[def.icon]
+                const log = selectedLog || emptyDayLog(selectedDate)
+                const done = isTaskDone(log, def.key)
+                return (
+                  <button
+                    key={def.key}
+                    className={`task-row${done ? ' task-row--done' : ''}`}
+                    onClick={() => onEditPastTask(def.key, selectedDate, selectedDay)}
+                  >
+                    <div className="task-row__icon"><Icon size={20} weight="regular" /></div>
+                    <div className="task-row__body">
+                      <div className={`task-name${done ? ' task-name--done' : ''}`}>{def.label}</div>
+                    </div>
+                    <div className={`task-check${done ? ' task-check--done' : ''}`}>
+                      {done
+                        ? <Check size={14} weight="bold" />
+                        : <CaretRight size={14} weight="bold" color="var(--color-text-tertiary)" />}
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          ) : selectedLog ? (
             <div className="task-list">
               {ALL_TASKS.map((def) => {
                 const Icon = TASK_ICONS[def.icon]
@@ -127,7 +160,7 @@ export default function ProgressScreen({ state, dayNum, onOpenDetail }) {
               })}
             </div>
           ) : (
-            <p className="text-body" style={{ color: 'var(--color-text-tertiary)' }}>No data for this day.</p>
+            <p className="text-body" style={{ color: 'var(--color-text-tertiary)' }}>No tasks yet.</p>
           )}
         </>
       ) : (
