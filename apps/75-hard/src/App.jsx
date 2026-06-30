@@ -42,6 +42,7 @@ export default function App() {
   const [detail, setDetail] = useState(null)
   const [showSplash, setShowSplash] = useState(true)
   const [profileName, setProfileName] = useState(null)
+  const [progressFocusDay, setProgressFocusDay] = useState(null)
   const checkedMissed = useRef(false)
 
   useEffect(() => {
@@ -94,6 +95,14 @@ export default function App() {
   const dayNum = Math.min(Math.max(getDayNumber(state.challenge.startDate), 1), 75)
   const dayLog = state.days[today] || emptyDayLog(today)
   const book = getCurrentBook(state)
+
+  const updateDayLog = (date, patch) => {
+    setState((prev) => {
+      const prevLog = prev.days[date] || emptyDayLog(date)
+      const nextLog = { ...prevLog, tasks: { ...prevLog.tasks, ...patch } }
+      return { ...prev, days: { ...prev.days, [date]: nextLog } }
+    })
+  }
 
   const updateToday = (patch) => {
     const prevLog = state.days[today] || emptyDayLog(today)
@@ -173,8 +182,20 @@ export default function App() {
     setDetail(null)
   }
 
+  const handleLogYesterdaysTasks = () => {
+    const { yesterdayDate, missedDay } = detail
+    setState((prev) => ({
+      ...prev,
+      challenge: { ...prev.challenge, lastAcknowledgedMiss: yesterdayDate },
+    }))
+    setProgressFocusDay(missedDay)
+    setDetail(null)
+    setTab('progress')
+  }
+
   const closeDetail = () => setDetail(null)
   const openTask = (key) => setDetail({ type: 'task', key })
+  const openPastTask = (key, date, pastDayNum) => setDetail({ type: 'past-task', key, date, pastDayNum })
   const openProgressDetail = (key) => setDetail({ type: 'progress', key })
 
   if (detail?.type === 'missed') {
@@ -185,6 +206,7 @@ export default function App() {
           completedCount={detail.completedCount}
           onRestart={handleRestart}
           onContinue={handleMissedContinue}
+          onLogYesterday={handleLogYesterdaysTasks}
         />
       </div>
     )
@@ -198,20 +220,25 @@ export default function App() {
     )
   }
 
-  if (detail?.type === 'task') {
+  if (detail?.type === 'task' || detail?.type === 'past-task') {
+    const isPast = detail.type === 'past-task'
+    const taskLog = isPast ? (state.days[detail.date] || emptyDayLog(detail.date)) : dayLog
+    const updateLog = isPast ? (patch) => updateDayLog(detail.date, patch) : updateToday
+    const taskDayNum = isPast ? detail.pastDayNum : dayNum
+
     let screen
     switch (detail.key) {
       case 'water':
-        screen = <WaterTaskScreen dayLog={dayLog} onUpdate={updateToday} onBack={closeDetail} />
+        screen = <WaterTaskScreen dayLog={taskLog} onUpdate={updateLog} onBack={closeDetail} />
         break
       case 'workout1':
         screen = (
           <WorkoutTaskScreen
-            dayLog={dayLog}
+            dayLog={taskLog}
             taskKey="workout1"
             isOutdoor={false}
             title="Workout 1"
-            onUpdate={updateToday}
+            onUpdate={updateLog}
             onBack={closeDetail}
           />
         )
@@ -219,29 +246,29 @@ export default function App() {
       case 'workout2':
         screen = (
           <WorkoutTaskScreen
-            dayLog={dayLog}
+            dayLog={taskLog}
             taskKey="workout2"
             isOutdoor={true}
             title="Workout 2"
-            onUpdate={updateToday}
+            onUpdate={updateLog}
             onBack={closeDetail}
           />
         )
         break
       case 'meditation':
-        screen = <MeditationTaskScreen dayLog={dayLog} onUpdate={updateToday} onBack={closeDetail} />
+        screen = <MeditationTaskScreen dayLog={taskLog} onUpdate={updateLog} onBack={closeDetail} />
         break
       case 'reading':
-        screen = <ReadingTaskScreen dayLog={dayLog} book={book} onUpdate={updateToday} onUpdateBook={updateBook} onBack={closeDetail} />
+        screen = <ReadingTaskScreen dayLog={taskLog} book={book} onUpdate={updateLog} onUpdateBook={updateBook} onBack={closeDetail} />
         break
       case 'diet':
-        screen = <DietTaskScreen dayLog={dayLog} onUpdate={updateToday} onBack={closeDetail} />
+        screen = <DietTaskScreen dayLog={taskLog} onUpdate={updateLog} onBack={closeDetail} />
         break
       case 'photo':
-        screen = <PhotoTaskScreen dayLog={dayLog} onUpdate={updateToday} onBack={closeDetail} />
+        screen = <PhotoTaskScreen dayLog={taskLog} onUpdate={updateLog} onBack={closeDetail} />
         break
       case 'journal':
-        screen = <JournalTaskScreen dayLog={dayLog} dayNum={dayNum} onUpdate={updateToday} onBack={closeDetail} />
+        screen = <JournalTaskScreen dayLog={taskLog} dayNum={taskDayNum} onUpdate={updateLog} onBack={closeDetail} />
         break
       default:
         screen = null
@@ -273,7 +300,16 @@ export default function App() {
   let content
   switch (tab) {
     case 'progress':
-      content = <ProgressScreen state={state} dayNum={dayNum} onOpenDetail={openProgressDetail} />
+      content = (
+        <ProgressScreen
+          state={state}
+          dayNum={dayNum}
+          focusDay={progressFocusDay}
+          onOpenDetail={openProgressDetail}
+          onEditPastTask={openPastTask}
+          onClearFocusDay={() => setProgressFocusDay(null)}
+        />
+      )
       break
     case 'journal':
       content = (
