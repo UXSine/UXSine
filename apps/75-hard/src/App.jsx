@@ -66,8 +66,18 @@ export default function App() {
     }
   }, [state])
 
-  const handleStart = () => {
-    setState(emptyState(todayStr(), { name: profileName || '' }))
+  const handleStart = (startDate = todayStr(), retroactive = false) => {
+    const newState = emptyState(startDate, { name: profileName || '' })
+    if (retroactive) {
+      const d = new Date()
+      d.setDate(d.getDate() - 1)
+      newState.challenge.lastAcknowledgedMiss = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+    }
+    setState(newState)
+    if (retroactive) {
+      setTab('progress')
+      setProgressFocusDay(1)
+    }
   }
 
   const handleImport = (data) => {
