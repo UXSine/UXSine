@@ -90,12 +90,22 @@ export function isTaskDone(dayLog, key) {
   }
 }
 
-export function countDone(dayLog) {
-  return TASK_DEFS.filter((t) => isTaskDone(dayLog, t.key)).length
+export function getActiveTasks(state) {
+  const all = [...TASK_DEFS, JOURNAL_TASK_DEF]
+  const keys = state?.settings?.activeTasks
+  if (!keys || !Array.isArray(keys)) return all
+  return all.filter((t) => keys.includes(t.key))
 }
 
-export function isComplete(dayLog) {
-  return countDone(dayLog) === TASK_DEFS.length
+export function countDone(dayLog, activeTasks) {
+  const tasks = activeTasks ?? TASK_DEFS
+  return tasks.filter((t) => isTaskDone(dayLog, t.key)).length
+}
+
+export function isComplete(dayLog, activeTasks) {
+  const tasks = activeTasks ?? TASK_DEFS
+  if (tasks.length === 0) return false
+  return countDone(dayLog, tasks) === tasks.length
 }
 
 export function taskMeta(dayLog, key) {
@@ -127,10 +137,11 @@ export function taskMeta(dayLog, key) {
 export function computeStreak(state) {
   const { startDate } = state.challenge
   const dayNum = getDayNumber(startDate)
+  const activeTasks = getActiveTasks(state)
   let streak = 0
   for (let d = dayNum; d >= 1; d--) {
     const date = dateForDay(startDate, d)
-    if (isComplete(state.days[date])) streak++
+    if (isComplete(state.days[date], activeTasks)) streak++
     else break
   }
   return streak
@@ -161,6 +172,7 @@ export function emptyState(startDate, profile = {}) {
         evening: true,
         streak: true,
       },
+      activeTasks: [...TASK_DEFS.map((t) => t.key), JOURNAL_TASK_DEF.key],
     },
   }
 }

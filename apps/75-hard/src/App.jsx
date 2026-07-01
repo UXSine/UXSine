@@ -29,6 +29,7 @@ import {
   getDayNumber,
   dateForDay,
   isComplete,
+  getActiveTasks,
   MILESTONES,
 } from './data/model'
 
@@ -115,11 +116,12 @@ export default function App() {
   }
 
   const updateToday = (patch) => {
+    const activeTasks = getActiveTasks(state)
     const prevLog = state.days[today] || emptyDayLog(today)
-    const wasComplete = isComplete(prevLog)
+    const wasComplete = isComplete(prevLog, activeTasks)
     const nextLog = { ...prevLog, tasks: { ...prevLog.tasks, ...patch } }
     setState((prev) => ({ ...prev, days: { ...prev.days, [today]: nextLog } }))
-    if (!wasComplete && isComplete(nextLog) && MILESTONES.includes(dayNum)) {
+    if (!wasComplete && isComplete(nextLog, activeTasks) && MILESTONES.includes(dayNum)) {
       setDetail({ type: 'milestone', day: dayNum })
     }
   }

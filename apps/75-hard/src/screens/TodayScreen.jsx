@@ -4,6 +4,7 @@ import TaskRow from '../components/TaskRow'
 import {
   TASK_DEFS,
   JOURNAL_TASK_DEF,
+  getActiveTasks,
   countDone,
   isComplete,
   isTaskDone,
@@ -19,9 +20,12 @@ function formatDate(dateStr) {
 }
 
 export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }) {
-  const done = countDone(dayLog)
-  const total = TASK_DEFS.length
-  const allDone = isComplete(dayLog)
+  const activeTasks = getActiveTasks(state)
+  const activeMainTasks = activeTasks.filter((t) => t.key !== 'journal')
+  const journalActive = activeTasks.some((t) => t.key === 'journal')
+  const done = countDone(dayLog, activeTasks)
+  const total = activeTasks.length
+  const allDone = isComplete(dayLog, activeTasks)
   const streak = computeStreak(state)
   const overallProgress = Math.round((dayNum / 75) * 100)
 
@@ -104,7 +108,7 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
       <div>
         <div className="section-header">Today's tasks</div>
         <div className="task-list">
-          {TASK_DEFS.map((def) => (
+          {activeMainTasks.map((def) => (
             <TaskRow
               key={def.key}
               def={def}
@@ -116,17 +120,19 @@ export default function TodayScreen({ state, dayNum, today, dayLog, onOpenTask }
         </div>
       </div>
 
-      <div>
-        <div className="section-header">Reflect</div>
-        <div className="task-list">
-          <TaskRow
-            def={JOURNAL_TASK_DEF}
-            done={isTaskDone(dayLog, 'journal')}
-            meta={taskMeta(dayLog, 'journal')}
-            onClick={() => onOpenTask('journal')}
-          />
+      {journalActive && (
+        <div>
+          <div className="section-header">Reflect</div>
+          <div className="task-list">
+            <TaskRow
+              def={JOURNAL_TASK_DEF}
+              done={isTaskDone(dayLog, 'journal')}
+              meta={taskMeta(dayLog, 'journal')}
+              onClick={() => onOpenTask('journal')}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
