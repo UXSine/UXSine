@@ -4,6 +4,7 @@ import { TASK_ICONS, Check } from '../data/icons'
 import {
   TASK_DEFS,
   JOURNAL_TASK_DEF,
+  getActiveTasks,
   isTaskDone,
   isComplete,
   countDone,
@@ -12,13 +13,13 @@ import {
   computeStreak,
 } from '../data/model'
 
-function dayStatus(state, day, dayNum) {
+function dayStatus(state, day, dayNum, activeTasks) {
   if (day > dayNum) return 'future'
   if (day === dayNum) return 'today'
   const date = dateForDay(state.challenge.startDate, day)
   const log = state.days[date]
-  if (isComplete(log)) return 'complete'
-  if (countDone(log) > 0) return 'partial'
+  if (isComplete(log, activeTasks)) return 'complete'
+  if (countDone(log, activeTasks) > 0) return 'partial'
   return 'missed'
 }
 
@@ -26,8 +27,6 @@ function formatDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00')
   return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
 }
-
-const ALL_TASKS = [...TASK_DEFS, JOURNAL_TASK_DEF]
 
 const DETAIL_LINKS = [
   { key: 'workoutHistory', label: 'Workout history', icon: Barbell },
@@ -47,14 +46,15 @@ export default function ProgressScreen({ state, dayNum, focusDay, onOpenDetail, 
     }
   }, [focusDay])
 
+  const activeTasks = getActiveTasks(state)
   const selectedDate = dateForDay(state.challenge.startDate, selectedDay)
   const selectedLog = state.days[selectedDate]
 
-  const completedDays = Object.values(state.days).filter(isComplete).length
+  const completedDays = Object.values(state.days).filter((d) => isComplete(d, activeTasks)).length
   const streak = computeStreak(state)
   const completionPct = dayNum > 0 ? Math.round((completedDays / dayNum) * 100) : 0
 
-  const habitPercents = ALL_TASKS.map((def) => {
+  const habitPercents = activeTasks.map((def) => {
     let count = 0
     for (let d = 1; d <= dayNum; d++) {
       const date = dateForDay(state.challenge.startDate, d)
@@ -95,7 +95,7 @@ export default function ProgressScreen({ state, dayNum, focusDay, onOpenDetail, 
         <>
           <div className="day-strip">
             {Array.from({ length: 75 }, (_, i) => i + 1).map((d) => {
-              const status = dayStatus(state, d, dayNum)
+              const status = dayStatus(state, d, dayNum, activeTasks)
               const numClass = status === 'today' ? ' day-strip-num--today' : status === 'missed' || status === 'partial' || status === 'complete' ? ' day-strip-num--past' : ''
               const dotClass =
                 status === 'complete' ? ' day-strip-dot--complete'
@@ -118,7 +118,7 @@ export default function ProgressScreen({ state, dayNum, focusDay, onOpenDetail, 
 
           {selectedDay < dayNum ? (
             <div className="task-list">
-              {ALL_TASKS.map((def) => {
+              {activeTasks.map((def) => {
                 const Icon = TASK_ICONS[def.icon]
                 const log = selectedLog || emptyDayLog(selectedDate)
                 const done = isTaskDone(log, def.key)
@@ -143,7 +143,7 @@ export default function ProgressScreen({ state, dayNum, focusDay, onOpenDetail, 
             </div>
           ) : selectedLog ? (
             <div className="task-list">
-              {ALL_TASKS.map((def) => {
+              {activeTasks.map((def) => {
                 const Icon = TASK_ICONS[def.icon]
                 const done = isTaskDone(selectedLog, def.key)
                 return (

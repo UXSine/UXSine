@@ -2,7 +2,8 @@ import { useRef, useState } from 'react'
 import { ArrowCounterClockwise, Trophy, Camera, User } from '@phosphor-icons/react'
 import { exportData, readBackupFile } from '../utils/backup'
 import { readImageAsDataURL } from '../utils/image'
-import { computeStreak, isComplete } from '../data/model'
+import { computeStreak, isComplete, TASK_DEFS, JOURNAL_TASK_DEF } from '../data/model'
+import { TASK_ICONS } from '../data/icons'
 
 const NOTIFICATIONS = [
   { key: 'morning', label: 'Morning kickoff', sub: '7:00 AM — Day starts now' },
@@ -26,6 +27,17 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onUpdat
   const avatarUri = state.profile?.avatarUri
   const streak = computeStreak(state)
   const completedDays = Object.values(state.days).filter(isComplete).length
+
+  const ALL_TASK_DEFS = [...TASK_DEFS, JOURNAL_TASK_DEF]
+  const activeTaskKeys = state.settings?.activeTasks ?? ALL_TASK_DEFS.map((t) => t.key)
+
+  const toggleTask = (key) => {
+    const next = activeTaskKeys.includes(key)
+      ? activeTaskKeys.filter((k) => k !== key)
+      : [...activeTaskKeys, key]
+    if (next.length === 0) return
+    onUpdateSettings({ activeTasks: next })
+  }
 
   const handleNameBlur = () => {
     const trimmed = name.trim()
@@ -144,6 +156,34 @@ export default function ProfileScreen({ state, dayNum, onUpdateSettings, onUpdat
               </button>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div>
+        <div className="section-header">Daily tasks</div>
+        <div className="card">
+          {ALL_TASK_DEFS.map((def) => {
+            const Icon = TASK_ICONS[def.icon]
+            const isOn = activeTaskKeys.includes(def.key)
+            return (
+              <div className="toggle-row" key={def.key}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                  <Icon size={18} weight="regular" />
+                  <div>
+                    <div className="task-name">{def.label}</div>
+                    <div className="task-meta">{def.meta}</div>
+                  </div>
+                </div>
+                <button
+                  className={`toggle${isOn ? ' toggle--on' : ''}`}
+                  onClick={() => toggleTask(def.key)}
+                  aria-label={def.label}
+                >
+                  <span className="toggle__thumb" />
+                </button>
+              </div>
+            )
+          })}
         </div>
       </div>
 
