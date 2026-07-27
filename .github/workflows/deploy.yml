@@ -36,22 +36,12 @@ jobs:
           npm ci
           npm run build
 
-      - name: Build becoming
-        working-directory: apps/becoming
-        env:
-          VITE_SUPABASE_URL: ${{ vars.BECOMING_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.BECOMING_SUPABASE_ANON_KEY }}
-        run: |
-          npm ci
-          npm run build
-
       - name: Assemble site
         run: |
           mkdir -p site
           cp index.html site/index.html
           cp -r apps/75-hard/dist site/75-hard
           cp -r apps/moab-trail/dist site/moab-trail
-          cp -r apps/becoming/dist site/becoming
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
