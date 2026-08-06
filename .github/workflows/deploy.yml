@@ -36,12 +36,19 @@ jobs:
           npm ci
           npm run build
 
+      - name: Build focus
+        working-directory: apps/focus
+        run: |
+          npm ci
+          npm run build
+
       - name: Assemble site
         run: |
           mkdir -p site
           cp index.html site/index.html
           cp -r apps/75-hard/dist site/75-hard
           cp -r apps/moab-trail/dist site/moab-trail
+          cp -r apps/focus/dist site/focus
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
