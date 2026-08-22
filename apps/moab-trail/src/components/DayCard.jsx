@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Check, ChevronDown, ChevronUp } from 'lucide-react'
+import { AlertCircle, Apple, Check, ChevronDown, ChevronUp, Droplets } from 'lucide-react'
 import WorkoutTypeTag from './WorkoutTypeTag'
 import KneeCallout from './KneeCallout'
 import LogModal from './LogModal'
@@ -23,6 +23,38 @@ function StrengthList({ exercises }) {
             <li key={ex}>{ex}</li>
           ))}
         </ul>
+      )}
+    </div>
+  )
+}
+
+function TipsSection({ education }) {
+  const [open, setOpen] = useState(false)
+  if (!education) return null
+  return (
+    <div className="mt-3">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-1.5 text-xs font-display font-bold uppercase tracking-widest text-sandstone"
+      >
+        Tips for today
+        {open ? <ChevronUp size={14} strokeWidth={1.5} /> : <ChevronDown size={14} strokeWidth={1.5} />}
+      </button>
+      {open && (
+        <div className="mt-2 space-y-2">
+          <div className="flex gap-2 text-sm text-muted leading-relaxed">
+            <AlertCircle size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-crimson" />
+            <p>{education.injury}</p>
+          </div>
+          <div className="flex gap-2 text-sm text-muted leading-relaxed">
+            <Apple size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-sage" />
+            <p>{education.fuel}</p>
+          </div>
+          <div className="flex gap-2 text-sm text-muted leading-relaxed">
+            <Droplets size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-sky" />
+            <p>{education.hydration}</p>
+          </div>
+        </div>
       )}
     </div>
   )
@@ -58,6 +90,8 @@ export default function DayCard({ weekNumber, day, log, onSaveLog }) {
       <p className="text-sm text-muted leading-relaxed">{day.description}</p>
 
       {day.strengthExercises && <StrengthList exercises={day.strengthExercises} />}
+
+      <TipsSection education={day.education} />
 
       {day.workoutType !== 'Rest' && (
         <button
