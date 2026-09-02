@@ -1,5 +1,6 @@
-// Hardcoded 10-week training plan for the Moab Trail Half Marathon (Nov 7-8, 2026)
+// Hardcoded 9-week training plan for the Moab Trail Half Marathon (Nov 7, 2026)
 // Source of truth for all plan content. Logged/actual data lives in localStorage (see useWorkoutLog).
+// Start date: Sep 7, 2026 (Monday). Race day: Nov 7, 2026 (Saturday).
 
 const STRENGTH_FOUNDATION = [
   'Bodyweight squats — 3 sets x 12',
@@ -51,8 +52,8 @@ const EDU = {
   },
   longTrail: {
     injury:
-      'Trekking poles protect your knees on steep descents and give you purchase on loose rock. Hike — don\'t run — the steepest sections. Power hiking is faster and safer than a shuffling jog on aggressive grade.',
-    fuel: 'Treat this like a race: eat before you\'re hungry. Pack 200–300 calories per hour — gels, nut butter packets, dates, or a real-food snack every 45–60 min.',
+      "Trekking poles protect your knees on steep descents and give you purchase on loose rock. Hike — don't run — the steepest sections. Power hiking is faster and safer than a shuffling jog on aggressive grade.",
+    fuel: "Treat this like a race: eat before you're hungry. Pack 200–300 calories per hour — gels, nut butter packets, dates, or a real-food snack every 45–60 min.",
     hydration:
       'Carry at least 1.5 liters. High altitude increases fluid loss even on cool days. Sip before you feel thirsty and add an electrolyte tab to offset sodium loss on longer climbs.',
   },
@@ -93,7 +94,7 @@ export const TRAILS = {
     trailDifficulty: 'Moderate',
     trailAllTrailsUrl: 'https://www.alltrails.com/parks/us/utah/corner-canyon-regional-park',
     trailNote:
-      'Park at the Ghost Falls Trailhead. Smooth, well-graded singletrack through scrub oak and maple — popular with mountain bikers, so stay alert on the descents.',
+      "Park at the Ghost Falls Trailhead. Smooth, well-graded singletrack through scrub oak and maple — popular with mountain bikers, so stay alert on the descents.",
     moabGainPct: 50,
   },
   lccCreek: {
@@ -143,28 +144,28 @@ export const TRAILS = {
 }
 
 export const TRAINING_PLAN = [
-  // ─── WEEK 1 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 1 — Sep 7 ───────────────────────────────────────────────────────
   {
     weekNumber: 1,
-    title: 'Find Your Legs',
+    title: 'Hit the Trail',
     phase: 'Foundation',
     badge: 'Building',
-    longRunMiles: 3,
+    longRunMiles: 4,
     ...TRAILS.bst,
     days: [
       {
         dayName: 'Monday',
         workoutType: 'Easy Run',
-        title: 'Easy Run — 2 miles',
-        description: '3 min run / 1 min walk. Conversational pace only — if you can\'t chat, slow down.',
-        miles: 2,
+        title: 'Easy Run — 2.5 miles',
+        description: 'First formal training day. Conversational pace only — 3 min run / 1 min walk if needed.',
+        miles: 2.5,
         education: { ...EDU.easyRun },
       },
       {
         dayName: 'Tuesday',
         workoutType: 'Strength',
         title: 'Foundation Strength',
-        description: 'Bodyweight strength circuit focused on knees, hips, and ankles. Take it easy and focus on form.',
+        description: 'Bodyweight circuit focused on knees, hips, and ankles. Focus on form over reps.',
         miles: 0,
         strengthExercises: STRENGTH_FOUNDATION,
         education: { ...EDU.strength },
@@ -172,9 +173,9 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Wednesday',
         workoutType: 'Easy Run',
-        title: 'Easy Run — 2 miles',
-        description: 'Second easy effort of the week. Same conversational pace — these midweek miles build the aerobic base your trail days will rely on.',
-        miles: 2,
+        title: 'Easy Run — 2.5 miles',
+        description: 'Second easy effort of the week. Same conversational pace — these midweek miles build the aerobic base your trail runs will rely on.',
+        miles: 2.5,
         education: { ...EDU.easyRun },
       },
       {
@@ -189,19 +190,19 @@ export const TRAINING_PLAN = [
         dayName: 'Friday',
         workoutType: 'Rest',
         title: 'Rest Day',
-        description: 'Full rest before the weekend trail + long run. Lay out your gear and pack water for tomorrow.',
+        description: 'Full rest before the trail weekend. Lay out your gear and pack water for tomorrow.',
         miles: 0,
         education: { ...EDU.rest },
       },
       {
         dayName: 'Saturday',
         workoutType: 'Trail Run',
-        title: 'Trail Run — Bonneville Shoreline Trail (3 miles)',
-        description: 'Your first trail run! Head out from Hidden Valley Trailhead. Walk the climbs, jog the flats and easy sections. Focus on footing, not pace.',
-        miles: 3,
+        title: 'Trail Run — Bonneville Shoreline Trail (3.5 miles)',
+        description: 'Your first planned trail run! Head out from Hidden Valley Trailhead. Walk the climbs, jog the flats. Focus on footing and fun, not pace.',
+        miles: 3.5,
         education: {
           injury:
-            "First trail run — focus on footing over pace. Most trail injuries are ankle rolls, not overuse. Walk any descent that feels sketchy. There's zero shame in hiking.",
+            "First trail run of the plan — stay focused on footing over pace. Most trail injuries are ankle rolls. Walk any descent that feels sketchy. There's zero shame in hiking.",
           fuel: EDU.trailRun.fuel,
           hydration: EDU.trailRun.hydration,
         },
@@ -209,29 +210,29 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Sunday',
         workoutType: 'Long Run',
-        title: 'Long Run — 3 miles',
-        description: 'Back-to-back efforts after yesterday\'s trail run — welcome to trail training. Slow and steady. Walk breaks are completely fine.',
-        miles: 3,
+        title: 'Long Run — 4 miles',
+        description: 'Back-to-back efforts after yesterday\'s trail run. Slow and steady — walk breaks are completely fine. Notice how the trail miles affect your road legs.',
+        miles: 4,
         education: { ...EDU.longRun },
       },
     ],
   },
 
-  // ─── WEEK 2 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 2 — Sep 14 ──────────────────────────────────────────────────────
   {
     weekNumber: 2,
-    title: 'Settle In',
-    phase: 'Foundation',
-    badge: 'Recovery',
-    longRunMiles: 4,
-    ...TRAILS.bst,
+    title: 'Climbing Begins',
+    phase: 'Build',
+    badge: 'Building',
+    longRunMiles: 5,
+    ...TRAILS.cornerCanyon,
     days: [
       {
         dayName: 'Monday',
         workoutType: 'Easy Run',
-        title: 'Easy Run — 2 miles',
-        description: 'Run/walk at a conversational pace. Notice how your legs feel compared to last week.',
-        miles: 2,
+        title: 'Easy Run — 3 miles',
+        description: 'Notice how your legs feel compared to last week. Keep the effort fully conversational.',
+        miles: 3,
         education: { ...EDU.easyRun },
       },
       {
@@ -246,83 +247,9 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Wednesday',
         workoutType: 'Easy Run',
-        title: 'Easy Run — 2 miles',
-        description: 'Steady midweek easy effort. No pressure — just keep the legs moving at a comfortable pace.',
-        miles: 2,
-        education: { ...EDU.easyRun },
-      },
-      {
-        dayName: 'Thursday',
-        workoutType: 'Cross-Train',
-        title: 'Cross-Train — 30 minutes',
-        description: 'Low-impact cross-training of your choice. Great week to add a longer stretching session.',
-        miles: 0,
-        education: { ...EDU.crossTrain },
-      },
-      {
-        dayName: 'Friday',
-        workoutType: 'Rest',
-        title: 'Rest Day',
-        description: 'Full rest before the weekend. Pack water and check the BST trail conditions.',
-        miles: 0,
-        education: { ...EDU.rest },
-      },
-      {
-        dayName: 'Saturday',
-        workoutType: 'Trail Run',
-        title: 'Trail Run — Bonneville Shoreline Trail (3.5 miles)',
-        description: 'A little farther than last week on familiar terrain. Focus on smooth footing on the rocky sections — notice how much more natural it already feels.',
-        miles: 3.5,
-        education: { ...EDU.trailRun },
-      },
-      {
-        dayName: 'Sunday',
-        workoutType: 'Long Run',
-        title: 'Long Run — 4 miles',
-        description: 'A small step up from week 1. Break it into 1-mile chunks mentally if that helps.',
-        miles: 4,
-        education: {
-          injury:
-            'Knee check-in: any pain below or behind the kneecap — especially on stairs or squats? Some muscle soreness is normal; persistent joint aching is not. Flag it now before it grows.',
-          fuel: EDU.longRun.fuel,
-          hydration: EDU.longRun.hydration,
-        },
-      },
-    ],
-  },
-
-  // ─── WEEK 3 ────────────────────────────────────────────────────────────────
-  {
-    weekNumber: 3,
-    title: 'Climbing Begins',
-    phase: 'Build',
-    badge: 'Building',
-    longRunMiles: 5,
-    ...TRAILS.cornerCanyon,
-    days: [
-      {
-        dayName: 'Monday',
-        workoutType: 'Easy Run',
-        title: 'Easy Run — 2.5 miles',
-        description: 'Easy effort. A short, gentle start to a bigger week.',
-        miles: 2.5,
-        education: { ...EDU.easyRun },
-      },
-      {
-        dayName: 'Tuesday',
-        workoutType: 'Strength',
-        title: 'Foundation Strength',
-        description: 'Same circuit. These small sessions are quietly building the trail stability that protects you later.',
-        miles: 0,
-        strengthExercises: STRENGTH_FOUNDATION,
-        education: { ...EDU.strength },
-      },
-      {
-        dayName: 'Wednesday',
-        workoutType: 'Easy Run',
-        title: 'Easy Run — 2.5 miles',
-        description: 'Easy effort midweek. Keep this relaxed — Corner Canyon on Saturday is the main event.',
-        miles: 2.5,
+        title: 'Easy Run — 3 miles',
+        description: 'Steady midweek easy effort. Keep it relaxed — Corner Canyon on Saturday is the main event.',
+        miles: 3,
         education: { ...EDU.easyRun },
       },
       {
@@ -358,16 +285,16 @@ export const TRAINING_PLAN = [
         dayName: 'Sunday',
         workoutType: 'Long Run',
         title: 'Long Run — 5 miles',
-        description: 'New distance milestone! Bring water and start practicing what you might use on race day — gels, chews, or real food.',
+        description: 'New distance milestone. Bring water and start practicing what you might use on race day — gels, chews, or real food.',
         miles: 5,
         education: { ...EDU.longRun },
       },
     ],
   },
 
-  // ─── WEEK 4 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 3 — Sep 21 ──────────────────────────────────────────────────────
   {
-    weekNumber: 4,
+    weekNumber: 3,
     title: 'Steady Vert',
     phase: 'Build',
     badge: 'Building',
@@ -378,7 +305,7 @@ export const TRAINING_PLAN = [
         dayName: 'Monday',
         workoutType: 'Easy Run',
         title: 'Easy Run — 3 miles',
-        description: 'Easy effort. Same comfortable pace as always.',
+        description: 'Easy effort. A comfortable start to a step-up week.',
         miles: 3,
         education: { ...EDU.easyRun },
       },
@@ -386,7 +313,7 @@ export const TRAINING_PLAN = [
         dayName: 'Tuesday',
         workoutType: 'Strength',
         title: 'Foundation Strength',
-        description: 'Keep the circuit going — strong hips and glutes are what protect your knees on the descents.',
+        description: 'Keep the circuit going — strong hips and glutes protect your knees on the descents.',
         miles: 0,
         strengthExercises: STRENGTH_FOUNDATION,
         education: { ...EDU.strength },
@@ -394,9 +321,9 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Wednesday',
         workoutType: 'Easy Run',
-        title: 'Easy Run — 2.5 miles',
-        description: 'Easy midweek run. Keep the pace fully conversational — recover well for the trail weekend.',
-        miles: 2.5,
+        title: 'Easy Run — 3 miles',
+        description: 'Easy midweek run. Keep the pace fully conversational to recover well for the trail weekend.',
+        miles: 3,
         education: { ...EDU.easyRun },
       },
       {
@@ -419,11 +346,11 @@ export const TRAINING_PLAN = [
         dayName: 'Saturday',
         workoutType: 'Trail Run',
         title: 'Trail Run — Corner Canyon (5 miles)',
-        description: 'A longer Corner Canyon loop. More climbing and more descending — practice your downhill form by shortening your stride and letting your arms balance you.',
+        description: 'A longer Corner Canyon loop. More climbing, more descending — practice your downhill form by shortening your stride and letting your arms help balance you.',
         miles: 5,
         education: {
           injury:
-            'Longer downhills mean more quad load — shorten your stride on descents. If your knees feel tender from last week, take the steep sections extra easy.',
+            'Longer downhills mean more quad load — shorten your stride on descents. If your knees feel tender from last week, take the steeper sections extra easy.',
           fuel: EDU.trailRun.fuel,
           hydration: EDU.trailRun.hydration,
         },
@@ -432,27 +359,105 @@ export const TRAINING_PLAN = [
         dayName: 'Sunday',
         workoutType: 'Long Run',
         title: 'Long Run — 6 miles',
-        description: 'Biggest road long run of the plan. Settle into a rhythm. If you can still feel yesterday\'s hills in your legs, take extra walk breaks — that\'s normal.',
+        description: 'Biggest road long run yet. Settle into a rhythm and enjoy it. If you can still feel yesterday\'s hills in your legs, take extra walk breaks — that\'s normal.',
         miles: 6,
         education: { ...EDU.longRun },
       },
     ],
   },
 
-  // ─── WEEK 5 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 4 — Sep 28 ──────────────────────────────────────────────────────
+  {
+    weekNumber: 4,
+    title: 'Creek Climb',
+    phase: 'Build',
+    badge: 'Building',
+    longRunMiles: 8,
+    ...TRAILS.lccCreek,
+    days: [
+      {
+        dayName: 'Monday',
+        workoutType: 'Easy Run',
+        title: 'Easy Run — 3 miles',
+        description: 'Easy effort. Same comfortable pace as always — let the legs loosen up.',
+        miles: 3,
+        education: { ...EDU.easyRun },
+      },
+      {
+        dayName: 'Tuesday',
+        workoutType: 'Strength',
+        title: 'Foundation Strength',
+        description: 'Keep building — this strength work is what protects your knees on technical downhills.',
+        miles: 0,
+        strengthExercises: STRENGTH_FOUNDATION,
+        education: { ...EDU.strength },
+      },
+      {
+        dayName: 'Wednesday',
+        workoutType: 'Easy Run',
+        title: 'Easy Run — 3 miles',
+        description: 'Easy midweek effort. Keep it fully conversational — this week is a step up in both trail and long-run distance.',
+        miles: 3,
+        education: { ...EDU.easyRun },
+      },
+      {
+        dayName: 'Thursday',
+        workoutType: 'Cross-Train',
+        title: 'Cross-Train — 30 minutes',
+        description: 'Low-impact cross-training. Prioritize hydration and sleep heading into a big weekend.',
+        miles: 0,
+        education: { ...EDU.crossTrain },
+      },
+      {
+        dayName: 'Friday',
+        workoutType: 'Rest',
+        title: 'Rest Day',
+        description: 'Full rest. Big miles this weekend — lay out your gear and pack water tonight.',
+        miles: 0,
+        education: { ...EDU.rest },
+      },
+      {
+        dayName: 'Saturday',
+        workoutType: 'Trail Run',
+        title: 'Trail Run — Little Cottonwood Creek Trail (4.5 miles)',
+        description: 'Steady climbing alongside the creek. This sustained grade mirrors what Moab will ask of your legs — practice running tall and breathing steady on the climbs.',
+        miles: 4.5,
+        education: {
+          injury: EDU.trailRun.injury,
+          fuel: 'Good week to test any mid-run fuel you\'re considering for the race. Bring a gel or a few dates and note how your stomach handles it on the trail.',
+          hydration: EDU.trailRun.hydration,
+        },
+      },
+      {
+        dayName: 'Sunday',
+        workoutType: 'Long Run',
+        title: 'Long Run — 8 miles',
+        description: 'Your biggest long run so far — more than half of race distance. Bring fuel and water. Take walk breaks whenever you need them. This is about time on feet, not pace.',
+        miles: 8,
+        education: {
+          injury:
+            "At this distance, form breaks down before fitness does. If you start shuffling or hunching, take a walk break to reset. Knee pain on descents today is worth paying attention to.",
+          fuel: 'You\'ll need to fuel during this run. Aim for 100–150 calories around the 45-minute mark, then every 45 min after. Practice what you\'ll use on race day.',
+          hydration: EDU.longRun.hydration,
+        },
+      },
+    ],
+  },
+
+  // ─── WEEK 5 — Oct 5 ───────────────────────────────────────────────────────
   {
     weekNumber: 5,
     title: 'Check the Knees',
     phase: 'Build',
     badge: 'Recovery',
-    longRunMiles: 5,
+    longRunMiles: 6,
     ...TRAILS.lccCreek,
     days: [
       {
         dayName: 'Monday',
         workoutType: 'Easy Run',
         title: 'Easy Run — 2.5 miles',
-        description: 'A lighter week overall — give your legs a chance to absorb the last month of work.',
+        description: 'A lighter week — give your body a chance to absorb the last four weeks of work.',
         miles: 2.5,
         education: { ...EDU.easyRun },
       },
@@ -468,16 +473,16 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Wednesday',
         workoutType: 'Easy Run',
-        title: 'Easy Run — 2 miles',
-        description: 'Short and easy. This is a recovery week — keep the mileage light and the effort low.',
-        miles: 2,
+        title: 'Easy Run — 2.5 miles',
+        description: 'Short and easy. Recovery week — keep the effort genuinely light.',
+        miles: 2.5,
         education: { ...EDU.easyRun },
       },
       {
         dayName: 'Thursday',
         workoutType: 'Cross-Train',
         title: 'Cross-Train — 30 minutes',
-        description: 'Low-impact cross-training. Great week for an extra mobility and foam rolling session.',
+        description: 'Low-impact cross-training. Great week for an extra foam rolling session on quads and calves.',
         miles: 0,
         education: { ...EDU.crossTrain },
       },
@@ -492,24 +497,20 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Saturday',
         workoutType: 'Trail Run',
-        title: 'Trail Run — Little Cottonwood Creek Trail (4 miles)',
-        description: 'Steady climbing alongside the creek. This sustained grade mirrors what Moab will ask of your legs — practice running tall and breathing steady on the climbs.',
-        miles: 4,
-        education: {
-          injury: EDU.trailRun.injury,
-          fuel: 'Good week to test any mid-run fuel you\'re considering for the race. Bring a gel or a few dates and note how your stomach handles it on the trail.',
-          hydration: EDU.trailRun.hydration,
-        },
+        title: 'Trail Run — Little Cottonwood Creek Trail (3.5 miles)',
+        description: 'Shorter than last week on the same trail. Use it to dial in your effort — notice how the climbing feels now that you\'ve been training for a month.',
+        miles: 3.5,
+        education: { ...EDU.trailRun },
       },
       {
         dayName: 'Sunday',
         workoutType: 'Long Run',
-        title: 'Long Run — 5 miles',
-        description: 'A cutback long run — slightly shorter than week 4. Use the extra recovery to feel genuinely fresh for the Red Pine push in week 6.',
-        miles: 5,
+        title: 'Long Run — 6 miles',
+        description: 'A cutback long run — shorter than last week. Use the extra recovery energy to feel genuinely fresh for the Red Pine push next week.',
+        miles: 6,
         education: {
           injury:
-            'Mid-plan knee check-in: any lingering aches below the kneecap or on stairs? Six weeks to race day — there\'s still time to address niggles. A few easy days won\'t hurt your fitness.',
+            'Mid-plan knee check-in: any lingering aches below the kneecap or on stairs? Three weeks to the big vert days — there\'s still time to address niggles now. A few easy days won\'t hurt your fitness.',
           fuel: EDU.longRun.fuel,
           hydration: EDU.longRun.hydration,
         },
@@ -517,7 +518,7 @@ export const TRAINING_PLAN = [
     ],
   },
 
-  // ─── WEEK 6 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 6 — Oct 12 ──────────────────────────────────────────────────────
   {
     weekNumber: 6,
     title: 'Highest Point',
@@ -538,7 +539,7 @@ export const TRAINING_PLAN = [
         dayName: 'Tuesday',
         workoutType: 'Strength',
         title: 'Foundation Strength',
-        description: 'Keep the circuit going — strong legs are what will make Saturday\'s Red Pine climb survivable.',
+        description: "Keep the circuit going — strong legs are what will make Saturday's Red Pine climb survivable.",
         miles: 0,
         strengthExercises: STRENGTH_FOUNDATION,
         education: { ...EDU.strength },
@@ -559,7 +560,7 @@ export const TRAINING_PLAN = [
         miles: 2.5,
         education: {
           injury: EDU.easyRun.injury,
-          fuel: 'Start loading carbs a little today and tomorrow. A pasta or rice dinner tonight sets you up well for Saturday\'s effort.',
+          fuel: "Start loading carbs slightly today. A pasta or rice dinner tonight sets you up well for Saturday's effort.",
           hydration: EDU.easyRun.hydration,
         },
       },
@@ -567,19 +568,19 @@ export const TRAINING_PLAN = [
         dayName: 'Friday',
         workoutType: 'Rest',
         title: 'Rest Day',
-        description: 'Full rest before tomorrow\'s Red Pine climb. Pack water, snacks, a layer, and trekking poles if you have them. Set an early alarm.',
+        description: "Full rest before tomorrow's Red Pine climb. Pack water, snacks, a layer, and trekking poles if you have them. Set an early alarm.",
         miles: 0,
         education: {
           injury: EDU.rest.injury,
           fuel: 'Eat a carb-forward dinner tonight — pasta, rice, or bread. Easy to digest, slow to burn.',
-          hydration: 'Drink an extra glass or two of water today. You want to start tomorrow well hydrated.',
+          hydration: 'Drink an extra glass or two of water today. You want to start tomorrow fully hydrated.',
         },
       },
       {
         dayName: 'Saturday',
         workoutType: 'Long Trail',
         title: 'Long Trail — Red Pine Lake (8 miles)',
-        description: 'The biggest vertical day of the entire plan — more climbing than the race itself. Go slow, hike every steep section, and take real breaks at the top.',
+        description: 'The biggest vertical day of the plan — more climbing than the race itself. Go slow, hike every steep section, and take real breaks at the top.',
         miles: 8,
         education: {
           injury:
@@ -592,102 +593,20 @@ export const TRAINING_PLAN = [
         dayName: 'Sunday',
         workoutType: 'Rest',
         title: 'Rest Day',
-        description: 'Full rest. Whatever Saturday felt like — you just did something genuinely hard. Let your body process it.',
+        description: "Full rest. Whatever Saturday felt like — you just did something genuinely hard. Let your body process it.",
         miles: 0,
         education: {
           injury: EDU.rest.injury,
-          fuel: 'Eat a protein-and-carb heavy recovery meal today. Your muscles are doing a lot of repair work after that climb — don\'t undereat.',
+          fuel: "Eat a protein-and-carb heavy recovery meal today. Your muscles are doing a lot of repair work after that climb — don't undereat.",
           hydration: EDU.rest.hydration,
         },
       },
     ],
   },
 
-  // ─── WEEK 7 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 7 — Oct 19 ──────────────────────────────────────────────────────
   {
     weekNumber: 7,
-    title: 'Hold the Line',
-    phase: 'Sharpen',
-    badge: 'Building',
-    longRunMiles: 9,
-    ...TRAILS.redPineLake,
-    days: [
-      {
-        dayName: 'Monday',
-        workoutType: 'Easy Run',
-        title: 'Easy Run — 3 miles',
-        description: 'Easy effort. Your legs may still feel last week\'s Red Pine climb — that\'s completely normal.',
-        miles: 3,
-        education: { ...EDU.easyRun },
-      },
-      {
-        dayName: 'Tuesday',
-        workoutType: 'Strength',
-        title: 'Foundation Strength',
-        description: 'Same circuit. You\'re in the home stretch of the build phase — this work is paying off in stability.',
-        miles: 0,
-        strengthExercises: STRENGTH_FOUNDATION,
-        education: { ...EDU.strength },
-      },
-      {
-        dayName: 'Wednesday',
-        workoutType: 'Easy Run',
-        title: 'Easy Run — 2.5 miles',
-        description: 'Easy midweek run. All eyes on Saturday\'s longest day — keep this one truly relaxed.',
-        miles: 2.5,
-        education: { ...EDU.easyRun },
-      },
-      {
-        dayName: 'Thursday',
-        workoutType: 'Easy Run',
-        title: 'Easy Run — 2.5 miles',
-        description: 'Short and easy. Keep it conversational — Saturday is the goal this week.',
-        miles: 2.5,
-        education: { ...EDU.easyRun },
-      },
-      {
-        dayName: 'Friday',
-        workoutType: 'Rest',
-        title: 'Rest Day',
-        description: 'Full rest before your longest training day. Prep your pack tonight: poles, snacks, layers, and plenty of water.',
-        miles: 0,
-        education: {
-          injury: EDU.rest.injury,
-          fuel: 'Same drill as last Friday — carb-forward dinner. Your body knows what to do with this fuel by now.',
-          hydration: 'Top off your hydration today. You\'ll sweat a lot tomorrow.',
-        },
-      },
-      {
-        dayName: 'Saturday',
-        workoutType: 'Long Trail',
-        title: 'Long Trail — Red Pine Lake + Add-On (9 miles)',
-        description: 'Same trail as last week with a short extension — your longest training day of the entire plan. Hike the steep sections, take breaks, and manage your energy across the full distance.',
-        miles: 9,
-        education: {
-          injury:
-            "Your longest day of the plan, coming off a big weekend last week. If anything feels wrong in the first mile, cut the route short — no single training day is worth missing the race. A 7-mile smart day beats a 9-mile injured one.",
-          fuel: EDU.longTrail.fuel,
-          hydration: EDU.longTrail.hydration,
-        },
-      },
-      {
-        dayName: 'Sunday',
-        workoutType: 'Rest',
-        title: 'Rest Day',
-        description: 'Full rest. From here, the work shifts from building to sharpening. The hard part is done.',
-        miles: 0,
-        education: {
-          injury: EDU.rest.injury,
-          fuel: 'Recovery meal today: protein-heavy and carb-rich. Your legs need all the help they can get after two big weekends in a row.',
-          hydration: EDU.rest.hydration,
-        },
-      },
-    ],
-  },
-
-  // ─── WEEK 8 ────────────────────────────────────────────────────────────────
-  {
-    weekNumber: 8,
     title: 'Hardest Day',
     phase: 'Sharpen',
     badge: 'Building',
@@ -698,7 +617,7 @@ export const TRAINING_PLAN = [
         dayName: 'Monday',
         workoutType: 'Easy Run',
         title: 'Easy Run — 2.5 miles',
-        description: 'Easy effort. A lighter week of mileage to absorb the last two big weekends before Lake Blanche.',
+        description: "Easy effort. Your legs may still feel last week's Red Pine climb — that's completely normal.",
         miles: 2.5,
         education: { ...EDU.easyRun },
       },
@@ -706,7 +625,7 @@ export const TRAINING_PLAN = [
         dayName: 'Tuesday',
         workoutType: 'Strength',
         title: 'Foundation Strength',
-        description: 'Same circuit. Strong legs are about to matter a lot on Saturday\'s switchbacks.',
+        description: "Same circuit. Strong legs are about to matter a lot on Saturday's switchbacks.",
         miles: 0,
         strengthExercises: STRENGTH_FOUNDATION,
         education: { ...EDU.strength },
@@ -727,7 +646,7 @@ export const TRAINING_PLAN = [
         miles: 2,
         education: {
           injury: EDU.easyRun.injury,
-          fuel: 'Load carbs tonight — a big, easy-to-digest meal sets you up well for Saturday\'s effort.',
+          fuel: "Load carbs tonight — a big, easy-to-digest meal sets you up well for Saturday's effort.",
           hydration: EDU.easyRun.hydration,
         },
       },
@@ -738,7 +657,7 @@ export const TRAINING_PLAN = [
         description: 'Full rest before the hardest day of the plan. Hydrate well, pack trekking poles, and set a comfortable alarm.',
         miles: 0,
         education: {
-          injury: 'Get good sleep tonight — fatigue amplifies perceived exertion and slows reaction time on loose terrain. If you\'re anxious, that\'s normal. You\'re ready.',
+          injury: "Get good sleep tonight — fatigue amplifies perceived exertion and slows reaction time on loose terrain. If you're nervous, that's normal. You're ready.",
           fuel: 'Carb-forward dinner, eat early. Keep it familiar — no rich or spicy foods the night before a big effort.',
           hydration: 'Drink extra water today. You want to start tomorrow fully hydrated, not scrambling to catch up mid-climb.',
         },
@@ -752,7 +671,7 @@ export const TRAINING_PLAN = [
         education: {
           injury:
             'Lake Blanche has more gain per mile than anything else in the plan — or the race. Use trekking poles if you have them. Hike every pitch over 15% grade. Your quads will be on fire descending — slow down and take it one switchback at a time.',
-          fuel: 'Pack more food than you think you need: 200–300 cal/hour minimum. The climb is relentless and you\'ll be out there longer than you expect. Dates, nut butter packets, and a sandwich all work great.',
+          fuel: "Pack more food than you think you need: 200–300 cal/hour minimum. The climb is relentless and you'll be out there longer than you expect. Dates, nut butter packets, and a sandwich all work great.",
           hydration: 'Carry at least 2 liters. This is a long, steep effort at elevation. Drink every 20 min on a schedule — don\'t wait until you feel thirsty.',
         },
       },
@@ -760,7 +679,7 @@ export const TRAINING_PLAN = [
         dayName: 'Sunday',
         workoutType: 'Rest',
         title: 'Rest Day',
-        description: 'Full rest. That was your hardest training day — everything from here is taper. You\'ve done the hard work.',
+        description: "Full rest. That was your hardest training day — everything from here is taper. You've done the hard work.",
         miles: 0,
         education: {
           injury: 'Your legs will be very sore today. Gentle walking, compression socks, and plenty of sleep are your best tools. Foam rolling the quads and calves is fine — go easy.',
@@ -771,9 +690,9 @@ export const TRAINING_PLAN = [
     ],
   },
 
-  // ─── WEEK 9 ────────────────────────────────────────────────────────────────
+  // ─── WEEK 8 — Oct 26 ──────────────────────────────────────────────────────
   {
-    weekNumber: 9,
+    weekNumber: 8,
     title: 'Ease Off',
     phase: 'Taper',
     badge: 'Taper',
@@ -822,8 +741,7 @@ export const TRAINING_PLAN = [
         description: 'Light, low-impact movement. A gentle bike spin, easy yoga, or a short swim — nothing that raises your heart rate above comfortable.',
         miles: 0,
         education: {
-          injury:
-            'Keep intensity very low. Taper is not the time to test a new activity or push any effort. Easy movement only.',
+          injury: 'Keep intensity very low. Taper is not the time to test a new activity or push any effort. Easy movement only.',
           fuel: EDU.crossTrain.fuel,
           hydration: EDU.crossTrain.hydration,
         },
@@ -832,7 +750,7 @@ export const TRAINING_PLAN = [
         dayName: 'Friday',
         workoutType: 'Rest',
         title: 'Rest Day',
-        description: 'Full rest. One more week of taper after this one. The fitness is locked in — rest is your final performance enhancer.',
+        description: 'Full rest. One more week of taper after this. The fitness is locked in — rest is your final performance enhancer.',
         miles: 0,
         education: {
           injury: EDU.rest.injury,
@@ -847,8 +765,7 @@ export const TRAINING_PLAN = [
         description: 'An easy, mostly-flat boardwalk loop at Brighton. Enjoy the fall colors — they should be spectacular up here. Keep it to a gentle jog.',
         miles: 2,
         education: {
-          injury:
-            'This is a shakeout, not a workout. Walk any section that doesn\'t feel right. The only goal today is to stay loose.',
+          injury: "This is a shakeout, not a workout. Walk any section that doesn't feel right. The only goal today is to stay loose.",
           fuel: 'No special fueling needed for this short loop — just bring water and enjoy the scenery.',
           hydration: EDU.trailRun.hydration,
         },
@@ -862,16 +779,16 @@ export const TRAINING_PLAN = [
         education: {
           injury:
             "If your legs feel heavy, that's the taper. If something actually hurts, rest — one run won't make or break race day. Trust what you've built.",
-          fuel: 'Practice your race-day hydration and fuel routine on this run — same amounts, same timing as you plan for Moab.',
-          hydration: 'This is your last long run before race day. Lock in your hydration protocol — whatever you\'ve been practicing.',
+          fuel: "Practice your race-day hydration and fuel routine on this run — same amounts, same timing as you plan for Moab.",
+          hydration: "This is your last long run before race day. Lock in your hydration protocol — whatever you've been practicing.",
         },
       },
     ],
   },
 
-  // ─── WEEK 10 ───────────────────────────────────────────────────────────────
+  // ─── WEEK 9 — Nov 2 (Race Week) ───────────────────────────────────────────
   {
-    weekNumber: 10,
+    weekNumber: 9,
     title: 'Trust It',
     phase: 'Taper',
     badge: 'Race Week',
@@ -884,11 +801,11 @@ export const TRAINING_PLAN = [
         dayName: 'Monday',
         workoutType: 'Easy Run',
         title: 'Easy Run — 2 miles',
-        description: 'Easy effort, short and relaxed. The work is done — this is just keeping your legs awake.',
+        description: "Easy effort, short and relaxed. The work is done — this is just keeping your legs awake.",
         miles: 2,
         education: {
           injury:
-            'Any new aches this week are almost certainly phantom taper pains — they vanish on race day. Don\'t do anything extra to "fix" them.',
+            "Any new aches this week are almost certainly phantom taper pains — they vanish on race day. Don't do anything extra to \"fix\" them.",
           fuel: EDU.easyRun.fuel,
           hydration: 'Begin race-week hydration: aim for 80–100 oz of water daily through Saturday. This sets you up for the desert.',
         },
@@ -909,11 +826,10 @@ export const TRAINING_PLAN = [
         dayName: 'Wednesday',
         workoutType: 'Easy Run',
         title: 'Easy Run — 1.5 miles (shakeout)',
-        description: 'A short, gentle shakeout jog. Your legs should feel surprisingly good — that\'s the taper working. Keep it light.',
+        description: "A short, gentle shakeout jog. Your legs should feel surprisingly good — that's the taper working. Keep it light.",
         miles: 1.5,
         education: {
-          injury:
-            'Short and easy only. If your legs feel off today, just walk it instead — 1.5 miles won\'t affect race day either way.',
+          injury: "Short and easy only. If your legs feel off today, just walk it instead — 1.5 miles won't affect race day either way.",
           fuel: 'Practice your race-day breakfast today at the same time relative to your run. No new foods.',
           hydration: EDU.easyRun.hydration,
         },
@@ -926,7 +842,7 @@ export const TRAINING_PLAN = [
         miles: 1.5,
         education: {
           injury: 'Keep this one genuinely easy. Your job this week is to rest, not to squeeze out fitness.',
-          fuel: 'Think through your race-morning meal. Whatever you plan to eat before the gun — eat it now, at the same relative timing, so your gut is familiar.',
+          fuel: "Think through your race-morning meal. Whatever you plan to eat before the gun — eat it now, at the same relative timing, so your gut is familiar.",
           hydration: EDU.easyRun.hydration,
         },
       },
@@ -941,19 +857,19 @@ export const TRAINING_PLAN = [
             'Keep your feet up after the drive. Compression socks during travel help reduce leg stiffness from hours in the car.',
           fuel: 'Race-eve dinner: carb-forward and familiar — pasta, rice, or bread. Nothing rich, spicy, or new. Eat at least 3 hours before bedtime.',
           hydration:
-            'Drink extra water during the drive. Moab is dry desert air — you lose fluid even just sitting in the car. Arrive hydrated.',
+            "Drink extra water during the drive. Moab is dry desert air — you lose fluid even just sitting in the car. Arrive hydrated.",
         },
       },
       {
         dayName: 'Saturday',
         workoutType: 'Long Run',
         title: 'Race Day — Moab Trail Half Marathon!',
-        description: '13.1 miles through Kane Creek Canyon. The training, the trails, all those big weekend days — it was all for this. Run your own race and enjoy every mile.',
+        description: "13.1 miles through Kane Creek Canyon. The training, the trails, all those big weekend days — it was all for this. Run your own race and enjoy every mile.",
         miles: 13.1,
         education: {
           injury:
-            'If something starts hurting early, don\'t push through and make it worse. Slow down, assess, and adjust — a smart race beats a hobbled finish.',
-          fuel: 'Race-morning breakfast 2–2.5 hours before start. During the race, fuel every 45–60 min — whatever you\'ve been practicing. Don\'t try anything new today.',
+            "If something starts hurting early, don't push through and make it worse. Slow down, assess, and adjust — a smart race beats a hobbled finish.",
+          fuel: "Race-morning breakfast 2–2.5 hours before start. During the race, fuel every 45–60 min — whatever you've been practicing. Don't try anything new today.",
           hydration:
             "Use every aid station. Even if you're not thirsty, take water or electrolytes. Moab's dry desert air will dehydrate you faster than you expect.",
         },
@@ -967,9 +883,9 @@ export const TRAINING_PLAN = [
         education: {
           injury:
             'Post-race legs will be very sore, especially the quads. Gentle walking, compression socks, and elevation are your friends. No running for at least a week.',
-          fuel: 'Eat plenty today — you just burned 1,500+ calories. Enjoy the celebration meal. You\'ve absolutely earned it.',
+          fuel: "Eat plenty today — you just burned 1,500+ calories. Enjoy the celebration meal. You've absolutely earned it.",
           hydration:
-            'Keep drinking today even if you don\'t feel thirsty. Race-day dehydration lingers. Electrolytes help replenish what the desert took.',
+            "Keep drinking today even if you don't feel thirsty. Race-day dehydration lingers. Electrolytes help replenish what the desert took.",
         },
       },
     ],
