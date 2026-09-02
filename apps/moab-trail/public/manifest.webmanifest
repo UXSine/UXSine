@@ -1,7 +1,7 @@
 {
   "name": "Kane Creek — Moab Trail Training Tracker",
   "short_name": "Kane Creek",
-  "description": "Personal training tracker for the Moab Trail Half Marathon — 10 weeks on the Wasatch trails.",
+  "description": "Personal training tracker for the Moab Trail Half Marathon — 9 weeks on the Wasatch trails.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
