@@ -11,7 +11,7 @@ export default function WeekDetail() {
   const num = Number(weekNumber)
   const { getLog, upsertLog } = useWorkoutLog()
 
-  if (!Number.isInteger(num) || num < 1 || num > 10) {
+  if (!Number.isInteger(num) || num < 0 || num > 9) {
     return <Navigate to="/week/1" replace />
   }
 

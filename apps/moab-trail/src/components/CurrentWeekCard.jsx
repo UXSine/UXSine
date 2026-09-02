@@ -5,14 +5,17 @@ import MoabGainBar from './MoabGainBar'
 import DayGridCell from './DayGridCell'
 
 export default function CurrentWeekCard({ week, getLog, onToggleComplete }) {
-  const weekdays = week.days.filter((d) => d.dayName !== 'Sunday')
+  const isPrepWeek = week.weekNumber === 0
+  const gridDays = isPrepWeek
+    ? week.days.filter((d) => d.dayName !== 'Sunday')
+    : week.days.filter((d) => d.dayName !== 'Sunday')
   const sunday = week.days.find((d) => d.dayName === 'Sunday')
 
   return (
     <div className="card p-4">
       <div className="flex items-start justify-between gap-3 mb-4">
         <div>
-          <p className="label-caption">{week.weekNumber === 0 ? 'Prep Week' : `Week ${week.weekNumber} of 9`} · {week.phase}</p>
+          <p className="label-caption">{isPrepWeek ? 'Prep Week' : `Week ${week.weekNumber} of 9`} · {week.phase}</p>
           <h2 className="text-xl font-display font-bold text-bark mt-0.5">{week.title}</h2>
         </div>
         <PhaseBadge badge={week.badge} />
@@ -35,8 +38,8 @@ export default function CurrentWeekCard({ week, getLog, onToggleComplete }) {
       </div>
 
       <p className="label-caption mb-2">This week's training</p>
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-3">
-        {weekdays.map((day) => (
+      <div className={`grid gap-2 mb-3 ${isPrepWeek ? 'grid-cols-3' : 'grid-cols-3 sm:grid-cols-6'}`}>
+        {gridDays.map((day) => (
           <DayGridCell
             key={day.dayName}
             day={day}
@@ -46,11 +49,13 @@ export default function CurrentWeekCard({ week, getLog, onToggleComplete }) {
         ))}
       </div>
 
-      <div className="flex items-center justify-between rounded-card bg-sky/10 px-3 py-2.5 mb-3">
-        <span className="text-sm font-body text-sky">
-          <span className="font-display font-bold">Sunday</span> · {sunday.title}
-        </span>
-      </div>
+      {sunday && (
+        <div className="flex items-center justify-between rounded-card bg-sky/10 px-3 py-2.5 mb-3">
+          <span className="text-sm font-body text-sky">
+            <span className="font-display font-bold">{sunday.dayName}</span> · {sunday.title}
+          </span>
+        </div>
+      )}
 
       <Link
         to={`/week/${week.weekNumber}`}
