@@ -60,13 +60,13 @@ export default function Dashboard() {
           reach. 🏔️
         </div>
       )}
-      {displayWeek.weekNumber === 8 && longRunCompleted && (
+      {displayWeek.weekNumber === 7 && longRunCompleted && (
         <div className="rounded-card bg-sage/15 border border-sage/30 px-4 py-3 text-sm text-bark">
           <span className="font-display font-bold text-sage">That was your hardest training day.</span> Race day just
           got easier.
         </div>
       )}
-      {displayWeek.weekNumber === 10 && (
+      {displayWeek.weekNumber === 9 && (
         <div className="rounded-card bg-sky/15 border border-sky/30 px-4 py-3 text-sm text-bark">
           <span className="font-display font-bold text-sky">The work is done.</span> Trust it.
         </div>

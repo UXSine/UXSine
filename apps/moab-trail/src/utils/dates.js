@@ -1,6 +1,6 @@
 import { DAY_NAMES } from '../data/trainingPlan'
 
-export const START_DATE = new Date(2026, 7, 24) // Aug 24, 2026 (Monday)
+export const START_DATE = new Date(2026, 8, 7) // Sep 7, 2026 (Monday)
 export const RACE_DATE = new Date(2026, 10, 7) // Nov 7, 2026
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24
@@ -20,17 +20,17 @@ function toISODate(date) {
   return `${y}-${m}-${d}`
 }
 
-// Returns 0 if training hasn't started yet, 1-10 during the plan, 10 once the plan is complete
+// Returns 0 if training hasn't started yet, 1-9 during the plan, 9 once the plan is complete
 export function getCurrentWeekNumber(today = new Date()) {
   const diff = diffInDays(START_DATE, today)
   if (diff < 0) return 0
-  return Math.min(Math.floor(diff / 7) + 1, 10)
+  return Math.min(Math.floor(diff / 7) + 1, 9)
 }
 
 // Returns the plan day name (Monday-Sunday) for today, or null if outside the active plan
 export function getCurrentDayName(today = new Date()) {
   const diff = diffInDays(START_DATE, today)
-  if (diff < 0 || diff >= 70) return null
+  if (diff < 0 || diff >= 63) return null
   return DAY_NAMES[diff % 7]
 }
 
