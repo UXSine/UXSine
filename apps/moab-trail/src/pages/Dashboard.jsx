@@ -13,7 +13,7 @@ export default function Dashboard() {
   const currentWeekNumber = getCurrentWeekNumber()
   const weeksToRace = getWeeksToRace()
   const daysUntilStart = getDaysUntilStart()
-  const displayWeek = getWeek(currentWeekNumber <= -1 ? 1 : currentWeekNumber)
+  const displayWeek = getWeek(currentWeekNumber < 0 ? 0 : currentWeekNumber)
 
   const totalMiles = logs
     .filter((l) => l.completed)
