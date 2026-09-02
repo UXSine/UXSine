@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom'
 import { Sparkles } from 'lucide-react'
 import WorkoutTypeTag from '../components/WorkoutTypeTag'
 import WorkoutLogForm from '../components/WorkoutLogForm'
-import { TRAINING_PLAN, DAY_NAMES, getWeek } from '../data/trainingPlan'
+import { TRAINING_PLAN, getWeek } from '../data/trainingPlan'
 import { useWorkoutLog } from '../hooks/useWorkoutLog'
 import { getCurrentWeekNumber, getCurrentDayName, getDateForWeekDay } from '../utils/dates'
 import { getRandomFact } from '../data/motivationalFacts'
-
-const TRAINING_DAY_NAMES = DAY_NAMES.filter((d) => d !== 'Sunday')
 
 export default function LogWorkout() {
   const { getLog, upsertLog } = useWorkoutLog()
@@ -16,14 +14,19 @@ export default function LogWorkout() {
   const currentWeekNum = getCurrentWeekNumber()
   const todayDayName = getCurrentDayName()
 
-  const [selectedWeek, setSelectedWeek] = useState(currentWeekNum === 0 ? 1 : currentWeekNum)
-  const [selectedDay, setSelectedDay] = useState(
-    todayDayName && todayDayName !== 'Sunday' ? todayDayName : 'Monday'
-  )
+  const defaultWeek = currentWeekNum < 0 ? 0 : currentWeekNum
+  const [selectedWeek, setSelectedWeek] = useState(defaultWeek)
+
+  const defaultWeekDays = getWeek(defaultWeek).days.filter((d) => d.dayName !== 'Sunday')
+  const defaultDay = todayDayName && todayDayName !== 'Sunday' && defaultWeekDays.some((d) => d.dayName === todayDayName)
+    ? todayDayName
+    : defaultWeekDays[0]?.dayName ?? 'Monday'
+  const [selectedDay, setSelectedDay] = useState(defaultDay)
   const [savedFact, setSavedFact] = useState(null)
 
   const week = getWeek(selectedWeek)
-  const planDay = week.days.find((d) => d.dayName === selectedDay)
+  const weekDays = week.days.filter((d) => d.dayName !== 'Sunday')
+  const planDay = week.days.find((d) => d.dayName === selectedDay) ?? week.days[0]
   const initialLog = getLog(selectedWeek, selectedDay)
 
   function handleSave(formData) {
@@ -71,12 +74,17 @@ export default function LogWorkout() {
             <span className="label-caption block mb-1.5">Week</span>
             <select
               value={selectedWeek}
-              onChange={(e) => setSelectedWeek(Number(e.target.value))}
+              onChange={(e) => {
+                const wk = Number(e.target.value)
+                setSelectedWeek(wk)
+                const firstDay = getWeek(wk).days.find((d) => d.dayName !== 'Sunday')
+                setSelectedDay(firstDay?.dayName ?? 'Monday')
+              }}
               className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-bark focus:outline-none focus:border-canyon"
             >
               {TRAINING_PLAN.map((w) => (
                 <option key={w.weekNumber} value={w.weekNumber}>
-                  Week {w.weekNumber} — {w.title}
+                  {w.weekNumber === 0 ? 'Prep Week' : `Week ${w.weekNumber}`} — {w.title}
                 </option>
               ))}
             </select>
@@ -88,9 +96,9 @@ export default function LogWorkout() {
               onChange={(e) => setSelectedDay(e.target.value)}
               className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-bark focus:outline-none focus:border-canyon"
             >
-              {TRAINING_DAY_NAMES.map((d) => (
-                <option key={d} value={d}>
-                  {d}
+              {weekDays.map((d) => (
+                <option key={d.dayName} value={d.dayName}>
+                  {d.dayName}
                 </option>
               ))}
             </select>
