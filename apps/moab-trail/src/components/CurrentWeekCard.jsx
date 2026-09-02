@@ -12,7 +12,7 @@ export default function CurrentWeekCard({ week, getLog, onToggleComplete }) {
     <div className="card p-4">
       <div className="flex items-start justify-between gap-3 mb-4">
         <div>
-          <p className="label-caption">Week {week.weekNumber} of 9 · {week.phase}</p>
+          <p className="label-caption">{week.weekNumber === 0 ? 'Prep Week' : `Week ${week.weekNumber} of 9`} · {week.phase}</p>
           <h2 className="text-xl font-display font-bold text-bark mt-0.5">{week.title}</h2>
         </div>
         <PhaseBadge badge={week.badge} />

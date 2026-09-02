@@ -1,7 +1,10 @@
 import { DAY_NAMES } from '../data/trainingPlan'
 
-export const START_DATE = new Date(2026, 8, 7) // Sep 7, 2026 (Monday)
-export const RACE_DATE = new Date(2026, 10, 7) // Nov 7, 2026
+export const PREP_DATE = new Date(2026, 8, 3)  // Sep 3, 2026 (Thursday — prep week starts)
+export const START_DATE = new Date(2026, 8, 7)  // Sep 7, 2026 (Monday — Week 1 starts)
+export const RACE_DATE = new Date(2026, 10, 7)  // Nov 7, 2026
+
+const PREP_DAY_NAMES = ['Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24
 
@@ -20,22 +23,26 @@ function toISODate(date) {
   return `${y}-${m}-${d}`
 }
 
-// Returns 0 if training hasn't started yet, 1-9 during the plan, 9 once the plan is complete
+// Returns -1 before prep week, 0 during prep week (Sep 3-6), 1-9 during the plan
 export function getCurrentWeekNumber(today = new Date()) {
-  const diff = diffInDays(START_DATE, today)
-  if (diff < 0) return 0
-  return Math.min(Math.floor(diff / 7) + 1, 9)
+  const diffFromPrep = diffInDays(PREP_DATE, today)
+  const diffFromStart = diffInDays(START_DATE, today)
+  if (diffFromPrep < 0) return -1
+  if (diffFromStart < 0) return 0
+  return Math.min(Math.floor(diffFromStart / 7) + 1, 9)
 }
 
-// Returns the plan day name (Monday-Sunday) for today, or null if outside the active plan
+// Returns the plan day name for today, or null if outside the active plan
 export function getCurrentDayName(today = new Date()) {
-  const diff = diffInDays(START_DATE, today)
-  if (diff < 0 || diff >= 63) return null
-  return DAY_NAMES[diff % 7]
+  const diffFromPrep = diffInDays(PREP_DATE, today)
+  const diffFromStart = diffInDays(START_DATE, today)
+  if (diffFromPrep < 0 || diffFromStart >= 63) return null
+  if (diffFromStart < 0) return PREP_DAY_NAMES[diffFromPrep] || null
+  return DAY_NAMES[diffFromStart % 7]
 }
 
 export function getDaysUntilStart(today = new Date()) {
-  return Math.max(diffInDays(today, START_DATE), 0)
+  return Math.max(diffInDays(today, PREP_DATE), 0)
 }
 
 // Whole weeks remaining until race day (can be 0 or negative once race has passed)
@@ -50,6 +57,13 @@ export function todayISO(today = new Date()) {
 
 // Calendar date (ISO) for a given plan week + day, based on the training start date
 export function getDateForWeekDay(weekNumber, dayName) {
+  if (weekNumber === 0) {
+    const prepIndex = PREP_DAY_NAMES.indexOf(dayName)
+    if (prepIndex === -1) return null
+    const date = new Date(PREP_DATE)
+    date.setDate(date.getDate() + prepIndex)
+    return toISODate(date)
+  }
   const dayIndex = DAY_NAMES.indexOf(dayName)
   const offsetDays = (weekNumber - 1) * 7 + dayIndex
   const date = new Date(START_DATE)

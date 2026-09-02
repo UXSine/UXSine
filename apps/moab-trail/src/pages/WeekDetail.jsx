@@ -21,7 +21,7 @@ export default function WeekDetail() {
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="label-caption">Week {week.weekNumber} of 9 · {week.phase}</p>
+          <p className="label-caption">{week.weekNumber === 0 ? 'Prep Week' : `Week ${week.weekNumber} of 9`} · {week.phase}</p>
           <h1 className="text-2xl font-display font-bold text-bark mt-0.5">{week.title}</h1>
         </div>
         <PhaseBadge badge={week.badge} />
@@ -47,7 +47,7 @@ export default function WeekDetail() {
       </div>
 
       <div className="flex items-center justify-between pt-2">
-        {week.weekNumber > 1 ? (
+        {week.weekNumber > 0 ? (
           <Link
             to={`/week/${week.weekNumber - 1}`}
             className="inline-flex items-center gap-1 text-xs font-display font-bold uppercase tracking-widest text-canyon"

@@ -13,7 +13,7 @@ export default function Dashboard() {
   const currentWeekNumber = getCurrentWeekNumber()
   const weeksToRace = getWeeksToRace()
   const daysUntilStart = getDaysUntilStart()
-  const displayWeek = getWeek(currentWeekNumber === 0 ? 1 : currentWeekNumber)
+  const displayWeek = getWeek(currentWeekNumber <= -1 ? 1 : currentWeekNumber)
 
   const totalMiles = logs
     .filter((l) => l.completed)
@@ -29,16 +29,20 @@ export default function Dashboard() {
       <div className="bg-crimson text-cream rounded-card px-5 py-6">
         <div className="flex items-center gap-2 mb-2">
           <Mountain size={20} strokeWidth={1.5} />
-          <span className="label-caption text-cream/70">10-Week Trail Training Plan</span>
+          <span className="label-caption text-cream/70">9-Week Trail Training Plan</span>
         </div>
         <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight">Moab Trail Half Marathon</h1>
         <p className="text-sm text-cream/80 mt-1">
           Kane Creek Canyon · {MOAB_RACE_DISTANCE_MILES} miles · ~{MOAB_RACE_GAIN_FT.toLocaleString()} ft gain
         </p>
 
-        {currentWeekNumber === 0 ? (
+        {currentWeekNumber === -1 ? (
           <p className="mt-3 text-lg font-display font-bold">
-            Training starts August 24 — {daysUntilStart} day{daysUntilStart === 1 ? '' : 's'} to go
+            Prep week starts Sep 3 — {daysUntilStart} day{daysUntilStart === 1 ? '' : 's'} to go
+          </p>
+        ) : currentWeekNumber === 0 ? (
+          <p className="mt-3 text-lg font-display font-bold">
+            Prep week — formal training starts Sep 7
           </p>
         ) : (
           <p className="mt-3 text-lg font-display font-bold">
@@ -47,7 +51,7 @@ export default function Dashboard() {
         )}
 
         <div className="grid grid-cols-3 gap-2 mt-4">
-          <StatCard variant="hero" label="Current Week" value={currentWeekNumber === 0 ? '—' : `${currentWeekNumber}/10`} />
+          <StatCard variant="hero" label="Current Week" value={currentWeekNumber <= 0 ? (currentWeekNumber === 0 ? 'Prep' : '—') : `${currentWeekNumber}/9`} />
           <StatCard variant="hero" label="Miles Logged" value={totalMiles.toFixed(1)} />
           <StatCard variant="hero" label="Long Run" value={longRunCompleted ? '✓' : '✗'} sub="this week" />
         </div>
