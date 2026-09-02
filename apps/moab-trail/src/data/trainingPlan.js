@@ -144,6 +144,58 @@ export const TRAILS = {
 }
 
 export const TRAINING_PLAN = [
+  // ─── PREP WEEK — Sep 3 ────────────────────────────────────────────────────
+  {
+    weekNumber: 0,
+    title: 'Prep Week',
+    phase: 'Warmup',
+    badge: 'Prep',
+    longRunMiles: 3,
+    ...TRAILS.bst,
+    days: [
+      {
+        dayName: 'Thursday',
+        workoutType: 'Easy Run',
+        title: 'Easy Run — 2.5 miles',
+        description: 'First run of the prep week. Conversational pace — just wake up the legs before formal training begins Monday.',
+        miles: 2.5,
+        education: { ...EDU.easyRun },
+      },
+      {
+        dayName: 'Friday',
+        workoutType: 'Rest',
+        title: 'Rest Day',
+        description: 'Full rest or gentle stretching. Save your legs for Saturday.',
+        miles: 0,
+        education: { ...EDU.rest },
+      },
+      {
+        dayName: 'Saturday',
+        workoutType: 'Easy Run',
+        title: 'Easy Run — 3 miles (BST Preview)',
+        description: "Head to the Bonneville Shoreline Trail for a preview of next week's trail run. Jog easy and just get a feel for the terrain — no pressure, no pace.",
+        miles: 3,
+        education: {
+          injury: "This isn't a workout — it's a tour. Walk anything that feels sketchy. You're just getting familiar with the trail before it counts.",
+          fuel: EDU.easyRun.fuel,
+          hydration: EDU.easyRun.hydration,
+        },
+      },
+      {
+        dayName: 'Sunday',
+        workoutType: 'Rest',
+        title: 'Rest Day',
+        description: 'Full rest before Week 1 kicks off tomorrow. Get your gear ready — formal training starts Monday.',
+        miles: 0,
+        education: {
+          injury: EDU.rest.injury,
+          fuel: EDU.rest.fuel,
+          hydration: 'Top off your hydration today. Starting the plan well-hydrated makes a difference in how the first week feels.',
+        },
+      },
+    ],
+  },
+
   // ─── WEEK 1 — Sep 7 ───────────────────────────────────────────────────────
   {
     weekNumber: 1,
