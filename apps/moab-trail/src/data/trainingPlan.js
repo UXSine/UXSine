@@ -86,6 +86,18 @@ export const TRAILS = {
       'Park at Hidden Valley Trailhead off 10600 South. Rolling singletrack along the Wasatch foothills. Dogs allowed on this section.',
     moabGainPct: 42,
   },
+  mountOlympusFoothills: {
+    trailName: 'Mount Olympus Foothills',
+    trailLocation: 'Millcreek / Wasatch Blvd',
+    trailMiles: 4,
+    trailElevationGain: 700,
+    trailDifficulty: 'Moderate',
+    trailAllTrailsUrl:
+      'https://www.alltrails.com/trail/us/utah/mount-olympus-trail',
+    trailNote:
+      'Park at the Mount Olympus Trailhead on Wasatch Blvd. Stay on the lower foothills section — turn around at the first saddle, no need to go higher. Rocky in spots, good trail shoes required.',
+    moabGainPct: 47,
+  },
   cornerCanyon: {
     trailName: "Corner Canyon (Ghost Falls / Clark's Loop)",
     trailLocation: 'Draper',
@@ -203,7 +215,7 @@ export const TRAINING_PLAN = [
     phase: 'Foundation',
     badge: 'Building',
     longRunMiles: 4,
-    ...TRAILS.bst,
+    ...TRAILS.mountOlympusFoothills,
     days: [
       {
         dayName: 'Monday',
