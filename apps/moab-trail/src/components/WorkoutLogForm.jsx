@@ -1,6 +1,26 @@
-import { useState } from 'react'
-import { Check } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { Camera, Check, X } from 'lucide-react'
 import KneeCallout from './KneeCallout'
+
+function compressPhoto(file) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const MAX = 900
+      const scale = Math.min(1, MAX / Math.max(img.width, img.height))
+      const w = Math.round(img.width * scale)
+      const h = Math.round(img.height * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h)
+      URL.revokeObjectURL(url)
+      resolve(canvas.toDataURL('image/jpeg', 0.72))
+    }
+    img.src = url
+  })
+}
 
 const EFFORT_LABELS = ['Easy', 'Comfortable', 'Moderate', 'Hard', 'All-out']
 const KNEE_LABELS = ['Great', 'Good', 'OK', 'Sore', 'Ouch']
@@ -40,6 +60,15 @@ export default function WorkoutLogForm({ planDay, initialLog, onSave, onCancel, 
   const [kneeFeeling, setKneeFeeling] = useState(initialLog?.kneeFeeling ?? 1)
   const [notes, setNotes] = useState(initialLog?.notes ?? '')
   const [trailName, setTrailName] = useState(initialLog?.trailName ?? '')
+  const [photoDataUrl, setPhotoDataUrl] = useState(initialLog?.photoDataUrl ?? null)
+  const fileInputRef = useRef(null)
+
+  async function handlePhotoChange(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const compressed = await compressPhoto(file)
+    setPhotoDataUrl(compressed)
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -51,6 +80,7 @@ export default function WorkoutLogForm({ planDay, initialLog, onSave, onCancel, 
       kneeFeeling,
       notes,
       trailName,
+      photoDataUrl,
     })
   }
 
@@ -123,6 +153,39 @@ export default function WorkoutLogForm({ planDay, initialLog, onSave, onCancel, 
           className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-bark focus:outline-none focus:border-canyon resize-none"
         />
       </label>
+
+      <div>
+        <p className="label-caption mb-2">Progress photo</p>
+        {photoDataUrl ? (
+          <div className="relative">
+            <img src={photoDataUrl} alt="Progress" className="w-full rounded-card object-cover max-h-56" />
+            <button
+              type="button"
+              onClick={() => setPhotoDataUrl(null)}
+              className="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-bark/70 text-cream"
+            >
+              <X size={14} strokeWidth={2} />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="flex w-full items-center justify-center gap-2 rounded-card border border-dashed border-border py-4 text-sm text-muted hover:border-canyon hover:text-canyon transition-colors"
+          >
+            <Camera size={16} strokeWidth={1.5} />
+            Add a photo
+          </button>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          onChange={handlePhotoChange}
+          className="hidden"
+        />
+      </div>
 
       <div className="flex gap-2">
         {onCancel && (

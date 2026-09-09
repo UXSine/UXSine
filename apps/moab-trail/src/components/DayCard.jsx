@@ -127,6 +127,9 @@ export default function DayCard({ weekNumber, day, log, onSaveLog }) {
             </p>
           )}
           {log.notes && <p className="text-sm text-muted italic">"{log.notes}"</p>}
+          {log.photoDataUrl && (
+            <img src={log.photoDataUrl} alt="Progress" className="w-full rounded-card object-cover max-h-56 mt-1" />
+          )}
           <KneeCallout kneeFeeling={log.kneeFeeling} />
         </div>
       )}
