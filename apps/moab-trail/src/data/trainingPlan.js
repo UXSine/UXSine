@@ -347,7 +347,7 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Saturday',
         workoutType: 'Trail Run',
-        title: 'Trail Run — Snow Canyon State Park (4 miles)',
+        title: 'Trail Run — Hidden Pinyon + Lava Flow, Snow Canyon (4 miles)',
         description: "You're in St. George — make it count. Hidden Pinyon + Lava Flow loop through red rock slickrock. Similar climbing to Corner Canyon but completely different terrain. Walk the steep slickrock sections.",
         miles: 4,
         education: {
