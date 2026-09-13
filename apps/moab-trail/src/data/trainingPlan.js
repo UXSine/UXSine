@@ -98,6 +98,18 @@ export const TRAILS = {
       'Park at the Mount Olympus Trailhead on Wasatch Blvd. Stay on the lower foothills section — turn around at the first saddle, no need to go higher. Rocky in spots, good trail shoes required.',
     moabGainPct: 47,
   },
+  snowCanyon: {
+    trailName: 'Snow Canyon State Park',
+    trailLocation: 'St. George',
+    trailMiles: 4,
+    trailElevationGain: 550,
+    trailDifficulty: 'Moderate',
+    trailAllTrailsUrl:
+      'https://www.alltrails.com/trail/us/utah/hidden-pinyon-trail',
+    trailNote:
+      'Park at the Hidden Pinyon Trailhead inside Snow Canyon State Park. Combine Hidden Pinyon with the Lava Flow Trail for ~4 miles of red rock singletrack. $6 day-use fee. No dogs on trails.',
+    moabGainPct: 37,
+  },
   cornerCanyon: {
     trailName: "Corner Canyon (Ghost Falls / Clark's Loop)",
     trailLocation: 'Draper',
@@ -289,7 +301,7 @@ export const TRAINING_PLAN = [
     phase: 'Build',
     badge: 'Building',
     longRunMiles: 5,
-    ...TRAILS.cornerCanyon,
+    ...TRAILS.snowCanyon,
     days: [
       {
         dayName: 'Monday',
@@ -335,21 +347,21 @@ export const TRAINING_PLAN = [
       {
         dayName: 'Saturday',
         workoutType: 'Trail Run',
-        title: 'Trail Run — Corner Canyon (4 miles)',
-        description: 'First time on the Ghost Falls loop. More sustained climbing than BST — hike the steep parts, jog the rollers. Mountain bikers share this trail, so stay alert on descents.',
+        title: 'Trail Run — Snow Canyon State Park (4 miles)',
+        description: "You're in St. George — make it count. Hidden Pinyon + Lava Flow loop through red rock slickrock. Similar climbing to Corner Canyon but completely different terrain. Walk the steep slickrock sections.",
         miles: 4,
         education: {
           injury:
-            'Corner Canyon has more grade than BST — watch your knees on the downhills. Shorten your stride and lean very slightly forward to stay in control.',
+            'Slickrock is grippy when dry but deceptively slick at angles — stay on the painted trail markers. The red rock descents are shorter but sharper than what you\'re used to on Wasatch trails.',
           fuel: EDU.trailRun.fuel,
-          hydration: EDU.trailRun.hydration,
+          hydration: 'St. George is significantly hotter and drier than Salt Lake — carry more water than you think you need. Plan for at least 20 oz per hour.',
         },
       },
       {
         dayName: 'Sunday',
         workoutType: 'Long Run',
         title: 'Long Run — 5 miles',
-        description: 'New distance milestone. Bring water and start practicing what you might use on race day — gels, chews, or real food.',
+        description: "New distance milestone on the road. Run the streets of St. George or Cedar City — flat roads let your legs recover from yesterday's red rock while still hitting the mileage. Bring water and start practicing race-day fuel.",
         miles: 5,
         education: { ...EDU.longRun },
       },
